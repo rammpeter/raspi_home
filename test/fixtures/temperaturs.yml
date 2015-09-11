@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  Zeit: 2015-09-11 15:41:22
+  Vorlauf: 1
+  Ruecklauf: 1
+
+two:
+  Zeit: 2015-09-11 15:41:22
+  Vorlauf: 1
+  Ruecklauf: 1
