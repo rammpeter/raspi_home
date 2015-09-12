@@ -8,15 +8,14 @@
 DIR=`dirname $0`
 cd $DIR
 
-LOG=$DIR/log/schreibe_temperatur.log
+LOG=log/schreibe_temperatur.log
 
-COMMAND="rails runner -e production 'Temperatur.schreibe_temperatur'"
-$COMMAND 2>>$LOG >>$LOG
+bin/rails runner -e production "Temperatur.schreibe_temperatur(18,20)" 2>>$LOG >>$LOG
 RC=$?
 
 if [ $RC -ne 0 ]; then
   echo `date`  >> $LOG
-  echo "Fehler bei Ausführung $COMMAND" >> $LOG
+  echo "Fehler bei Ausführung Temperatur.schreibe_temperatur" >> $LOG
   echo "RC=$RC" >> $LOG
 fi
 exit $RC
