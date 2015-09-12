@@ -7,7 +7,10 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+<h2>Home-Automatisierung</h2>
+    <%= form_tag(url_for(:controller=>:auswertung, :action=>:show_temperatur_verlauf)) do %>
+<%= button_tag('Temperaturverlauf' ) %>
+<% end %>
 <%= yield %>
 
 </body>

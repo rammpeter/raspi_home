@@ -1,11 +1,9 @@
 class Temperatur < ActiveRecord::Base
 
-  def self.schreibe_temperatur
-    t = Temperatur.new()
-    t.Zeit = Time.now
-    t.Vorlauf=20
-    t.Ruecklauf=22
-    t.save
-
+  def self.schreibe_temperatur(vorlauf, ruecklauf)
+    t = Temperatur.new(
+        :Vorlauf    => vorlauf,
+        :Ruecklauf  => ruecklauf
+    ).save
   end
 end
