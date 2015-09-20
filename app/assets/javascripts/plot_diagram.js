@@ -120,10 +120,6 @@ function plot_diagram_class(unique_id, plot_area_id, caption, data_array, multip
         });
 
 
-        // ############ MouseOver-Hint Anzeige aktualisieren
-
-
-
         this.registerLegend();  // erstmaliger Aufruf, des weiteren neuer Aufruf nach Resize
     }   // end initialize
 
@@ -140,7 +136,7 @@ function plot_diagram_class(unique_id, plot_area_id, caption, data_array, multip
         plot_area.html("");                                  // Area putzen
     }
 
-
+    // ############ MouseOver-Hint Anzeige aktualisieren
     function showTooltip(x, y, contents) {
         $('<div id="'+toolTipID+'">' + contents + '</div>').css( {
             position: 'absolute',
