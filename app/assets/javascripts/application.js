@@ -11,6 +11,19 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery-ui-1.10.3.custom
 //= require jquery_ujs
 //= require turbolinks
+
+//= require jquery_table2CSV
+//= require flot/jquery.flot
+//= require flot/jquery.flot.resize
+//= require flot/jquery.flot.crosshair
+//= require jquery.event.drag-2.2
+//= require slick.core
+//= require slick.grid
+//= require slick.dataview
+//= require jquery.contextmenu.js
+
 //= require_tree .
+
