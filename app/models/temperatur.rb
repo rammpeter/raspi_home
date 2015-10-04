@@ -1,7 +1,7 @@
 class Temperatur < ActiveRecord::Base
 
   # gibt die im File hinterlegte Temperatur zurück
-  def read_temperature_from_file(env_name)
+  def self.read_temperature_from_file(env_name)
     raise "#{env_name} muss mit Pfad und Name der w1_slave-Datei belegt sein für den Sesnor"     unless ENV[env_name]
 
     lines = IO.readlines(ENV[env_name])
