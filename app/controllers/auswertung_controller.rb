@@ -4,22 +4,17 @@ class AuswertungController < ApplicationController
   end
 
   def list_temperatur_verlauf
-    # Zeiten als GMT erzeugen, da in DB auch Ablage in GMT erwartet wird
-    startDate = Time.gm(
+    startDate = Time.new(
         params[:time]['start(1i)'],
         params[:time]['start(2i)'],
         params[:time]['start(3i)'],
     )
 
-    endeDate = Time.gm(
+    endeDate = Time.new(
         params[:time]['ende(1i)'],
         params[:time]['ende(2i)'],
         params[:time]['ende(3i)'],
     )
-
-    puts startDate.to_s
-    puts startDate.localtime.to_s
-
 
     @temps = Temperatur.where(:created_at => startDate..endeDate)
 
