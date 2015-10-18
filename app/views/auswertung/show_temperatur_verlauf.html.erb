@@ -1,0 +1,7 @@
+<h3>Auswertung Temperaturverlauf</h3>
+
+<%= form_tag url_for(:action=>:list_temperatur_verlauf) do %>
+    Start <%= date_select(:time, :start) %>
+    Ende  <%= date_select(:time, :ende) %>
+    <%= button_tag('Anzeigen') %>
+<% end %>

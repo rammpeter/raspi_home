@@ -1,0 +1,66 @@
+<h1>Auswertung#list_temperatur_verlauf</h1>
+<p>Find me in app/views/auswertung/list_temperatur_verlauf.html.erb</p>
+
+<div id="plot_area">Hugo</div>
+
+<script type="text/javascript">
+jQuery(function($){
+    var data_array = [
+        {   label: 'Vorlauf',
+            data: [
+                [1380636300000, 20.5],
+                [1380636500000, 18.3],
+                [1380636800000, 18.2],
+            ]
+        },
+        {   label: 'Ruecklauf',
+            data: [
+                [1380636300000, 14.1],
+                [1380636500000, 16.443],
+                [1380636800000, 17.33],
+            ]
+        }
+    ];
+
+    new plot_diagram('120', 'plot_area', 'Titel Diagramm', data_array, false, true, true, 'de');
+
+})
+
+
+</script>
+
+
+<div id="plot_area2">Hugo2</div>
+
+<script type="text/javascript">
+    jQuery(function($){
+        var data_array = [
+            {   label: 'Vorlauf',
+                data: [
+                    <%= @vorlauf %>
+                ]
+            },
+            {   label: 'Rücklauf',
+                data: [
+                    <%= @ruecklauf %>
+                ]
+            },
+            {   label: 'Sonne',
+                data: [
+                    <%= @sonne %>
+                ]
+            },
+            {   label: 'Schatten',
+                data: [
+                    <%= @schatten %>
+                ]
+            }
+        ];
+        new plot_diagram('130', 'plot_area2', 'Titel Diagramm', data_array, false, true, true, 'de');
+
+    })
+
+
+</script>
+
+
