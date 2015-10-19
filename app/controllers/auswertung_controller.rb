@@ -24,10 +24,11 @@ class AuswertungController < ApplicationController
     @schatten = ""
 
     @temps.each do |t|
-      @vorlauf    << "[#{t.created_at.to_i*1000}, #{t.Vorlauf}],\n"
-      @ruecklauf  << "[#{t.created_at.to_i*1000}, #{t.Ruecklauf}],\n"
-      @sonne      << "[#{t.created_at.to_i*1000}, #{t.Sonne}],\n"
-      @schatten   << "[#{t.created_at.to_i*1000}, #{t.Schatten}],\n"
+      milliseconds_since_1970 = t.created_at.to_i*1000 + t.created_at.utc_offset*1000
+      @vorlauf    << "[#{milliseconds_since_1970}, #{t.Vorlauf}],\n"
+      @ruecklauf  << "[#{milliseconds_since_1970}, #{t.Ruecklauf}],\n"
+      @sonne      << "[#{milliseconds_since_1970}, #{t.Sonne}],\n"
+      @schatten   << "[#{milliseconds_since_1970}, #{t.Schatten}],\n"
     end
 
   end
