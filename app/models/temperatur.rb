@@ -18,4 +18,15 @@ class Temperatur < ActiveRecord::Base
         :Sonne      => read_temperature_from_file('FILENAME_SONNE')
     ).save
   end
+
+  # Reduktion der Datenmenge nach Ablauf von Haltefristen
+  def housekeeping
+    # Nur Records auf 10er Minuten behalten wenn älter als x Tage
+    Temperatur.where("created_at > DATETIME('now', '-7 days')").find_each do |t|
+      t.destroy if t.created_at.min % 10 != 0
+    end
+
+
+  end
+
 end
