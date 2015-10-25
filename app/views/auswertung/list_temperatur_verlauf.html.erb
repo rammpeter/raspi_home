@@ -26,7 +26,12 @@
                 ]
             }
         ];
-        new plot_diagram('130', 'plot_area2', 'Temperatur-Verlauf Einzel-Messwerte', data_array, false, true, true, 'de');
+        new plot_diagram('130', 'plot_area2', 'Temperatur-Verlauf Einzel-Messwerte', data_array,
+                {
+                    plot_diagram: {locale: 'de'},
+                    series: {points: {show: false}}
+                }
+        );
 
     })
 
