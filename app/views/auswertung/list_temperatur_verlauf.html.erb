@@ -1,6 +1,7 @@
-<h1>Auswertung#list_temperatur_verlauf</h1>
-
-<div id="plot_area2">Anzeige folgt sofort ...</div>
+<div class="page" style="height: 550px;">
+    <h3>Temperatur-Verlauf von <%= @start %> bis <%= @ende %></h3>
+    <div id="plot_area2">Anzeige folgt sofort ...</div>
+</div>
 
 <script type="text/javascript">
     jQuery(function($){
@@ -23,6 +24,11 @@
             {   label: 'Schatten',
                 data: [
                     <%= @schatten %>
+                ]
+            },
+            {   label: 'Pumpe an/aus',
+                data: [
+                    <%= @pumpenstatus %>
                 ]
             }
         ];

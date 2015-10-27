@@ -32,13 +32,20 @@ body {
     background-image: url(Pool.jpg);
     background-repeat: no-repeat;
     background-size: 100%;
-    color: white;
+    color: lightgoldenrodyellow;
     height: 200px;
     margin-bottom: 10px;
 }
 
 .page {
-    opacity: 0.7;
+    opacity: 0.8;
     background-color: #58ACFA;
     padding: 10px;
+}
+
+.buttons {
+    opacity: 0.8;
+    background-color: #58ACFA;
+    padding: 10px;
+    margin-bottom: 10px;
 }

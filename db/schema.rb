@@ -11,16 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151004171336) do
+ActiveRecord::Schema.define(version: 20151027000000) do
 
   create_table "temperaturs", force: :cascade do |t|
     t.datetime "Zeit"
-    t.decimal  "Vorlauf",    precision: 6, scale: 3
-    t.decimal  "Ruecklauf",  precision: 6, scale: 3
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
-    t.decimal  "Schatten",   precision: 6, scale: 3
-    t.decimal  "Sonne",      precision: 6, scale: 3
+    t.decimal  "Vorlauf",      precision: 6, scale: 3
+    t.decimal  "Ruecklauf",    precision: 6, scale: 3
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.decimal  "Schatten",     precision: 6, scale: 3
+    t.decimal  "Sonne",        precision: 6, scale: 3
+    t.decimal  "Pumpenstatus", precision: 1
   end
 
 end

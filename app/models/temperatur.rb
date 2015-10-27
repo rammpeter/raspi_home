@@ -11,12 +11,17 @@ class Temperatur < ActiveRecord::Base
   end
 
   def self.schreibe_temperatur
+
     t = Temperatur.new(
         :Vorlauf    => read_temperature_from_file('FILENAME_VORLAUF'),
         :Ruecklauf  => read_temperature_from_file('FILENAME_RUECKLAUF'),
         :Schatten   => read_temperature_from_file('FILENAME_SCHATTEN'),
         :Sonne      => read_temperature_from_file('FILENAME_SONNE')
-    ).save
+    )
+    pumpenstatus = 0      # TODO entscheiden ob Pumpe an oder aus
+
+    t.Pumpenstatus = pumpenstatus
+    t.save
   end
 
   # Reduktion der Datenmenge nach Ablauf von Haltefristen
