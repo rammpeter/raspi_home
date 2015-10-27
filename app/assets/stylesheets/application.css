@@ -12,9 +12,33 @@
  *
  *= require_tree .
  *= require_self
- *= require jquery-ui-1.10.3.custom
+ *= require jquery-ui
  *= require slick.grid
  *= require_tree .
 
 
  */
+
+
+body {
+    background-image: url(Rotsidan.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    margin: 0;
+    padding: 10px;
+}
+
+.head {
+    background-image: url(Pool.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    color: white;
+    height: 200px;
+    margin-bottom: 10px;
+}
+
+.page {
+    opacity: 0.7;
+    background-color: #58ACFA;
+    padding: 10px;
+}

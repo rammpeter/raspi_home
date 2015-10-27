@@ -11,7 +11,7 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery-ui-1.10.3.custom
+//= require jquery-ui
 //= require jquery_ujs
 //= require turbolinks
 
@@ -29,3 +29,11 @@
 
 //= require_tree .
 
+
+$.datepicker.setDefaults({
+    dateFormat: "dd.mm.yy",
+    dayNamesMin: [ "So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+    dayNames: [ "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag" ],
+    firstDay: 1,
+    monthNames: [ "Januar", "Februar", "Marts", "April", "Maj", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember" ]
+});

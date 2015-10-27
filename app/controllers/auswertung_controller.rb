@@ -5,15 +5,15 @@ class AuswertungController < ApplicationController
 
   def list_temperatur_verlauf
     startDate = Time.new(
-        params[:time]['start(1i)'],
-        params[:time]['start(2i)'],
-        params[:time]['start(3i)'],
+        params[:start][6,4],
+        params[:start][3,2],
+        params[:start][0,2],
     )
 
     endeDate = Time.new(
-        params[:time]['ende(1i)'],
-        params[:time]['ende(2i)'],
-        params[:time]['ende(3i)'],
+        params[:ende][6,4],
+        params[:ende][3,2],
+        params[:ende][0,2],
     )
 
     @temps = Temperatur.where(:created_at => startDate..endeDate)

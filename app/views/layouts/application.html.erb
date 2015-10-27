@@ -7,11 +7,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<h2>Home-Automatisierung</h2>
+    <div class="head">
+      <h2 align="center"><br><br><br>Pool-Temperatursteuerung mit Raspberry Pi</h2>
+    </div>
     <%= form_tag(url_for(:controller=>:auswertung, :action=>:show_temperatur_verlauf)) do %>
-<%= button_tag('Temperaturverlauf' ) %>
-<% end %>
-<%= yield %>
-
+        <%= button_tag('Temperaturverlauf' ) %>
+    <% end %>
+    <%= yield %>
 </body>
 </html>

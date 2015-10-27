@@ -1,7 +1,22 @@
-<h3>Auswertung Temperaturverlauf</h3>
+<div class="page">
+  <h3>Auswertung Temperaturverlauf</h3>
 
-<%= form_tag url_for(:action=>:list_temperatur_verlauf) do %>
-    Start <%= date_select(:time, :start) %>
-    Ende  <%= date_select(:time, :ende) %>
-    <%= button_tag('Anzeigen') %>
-<% end %>
+  <%= form_tag url_for(:action=>:list_temperatur_verlauf) do %>
+      <label>Start</label>
+      <input name="start" type="text" id="start">
+      <label>Ende</label>
+      <input name="ende" type="text" id="ende">
+      <%= button_tag('Anzeigen') %>
+  <% end %>
+</div>
+
+<script>
+    $(function() {
+        $("#start" ).datepicker({dateFormat: "dd.mm.yy",
+            dayNamesMin: [ "So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+            firstDay: 1
+        });
+        $("#ende" ).datepicker();
+    });
+</script>
+
