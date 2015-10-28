@@ -8,12 +8,20 @@
 </head>
 <body>
     <div class="head">
-      <h2 align="center"><br><br><br>Pool-Temperatursteuerung mit Raspberry Pi</h2>
+      <h2 align="center"><br><br>Pool-Temperatursteuerung mit Raspberry Pi</h2>
     </div>
     <div class="buttons">
-      <%= form_tag(url_for(:controller=>:auswertung, :action=>:show_temperatur_verlauf)) do %>
-          <%= button_tag('Temperaturverlauf' ) %>
-      <% end %>
+      <div class="float_button">
+        <%= form_tag(url_for(:controller=>:auswertung, :action=>:show_temperatur_verlauf_aktuell)) do %>
+            <%= button_tag('Temperaturverlauf gestern und heute' ) %>
+        <% end %>
+      </div>
+      <div class="float_button">
+        <%= form_tag(url_for(:controller=>:auswertung, :action=>:show_temperatur_verlauf)) do %>
+            <%= button_tag('Temperaturverlauf variabel' ) %>
+        <% end %>
+      </div>
+      <div style="clear: both"></div>
     </div>
     <%= yield %>
 </body>

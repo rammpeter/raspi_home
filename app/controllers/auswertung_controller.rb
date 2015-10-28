@@ -52,4 +52,11 @@ class AuswertungController < ApplicationController
 
   end
 
+  def show_temperatur_verlauf_aktuell
+    params[:start] = (Time.now-(60*60*24)).strftime "%d.%m.%Y"
+    params[:ende]  = Time.now.strftime "%d.%m.%Y"
+    list_temperatur_verlauf
+    render :template => 'auswertung/list_temperatur_verlauf'
+  end
+
 end

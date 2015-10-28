@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151027000000) do
+ActiveRecord::Schema.define(version: 20151028000000) do
 
   create_table "temperaturs", force: :cascade do |t|
     t.datetime "Zeit"
@@ -23,5 +23,7 @@ ActiveRecord::Schema.define(version: 20151027000000) do
     t.decimal  "Sonne",        precision: 6, scale: 3
     t.decimal  "Pumpenstatus", precision: 1
   end
+
+  add_index "temperaturs", ["created_at"], name: "index_temperaturs_on_created_at"
 
 end
