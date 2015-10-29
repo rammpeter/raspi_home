@@ -10,11 +10,15 @@ cd $DIR
 
 LOG=log/schreibe_temperatur.log
 
-# Einstellungen fuer Garage Ramm
+# Einstellungen fuer Temperaturfuehler Garage Ramm
 export FILENAME_VORLAUF=/sys/bus/w1/devices/28-04146f57bdff/w1_slave
 export FILENAME_RUECKLAUF=/sys/bus/w1/devices/28-04146f57a7ff/w1_slave
 export FILENAME_SCHATTEN=/sys/bus/w1/devices/28-021503c981ff/w1_slave
 export FILENAME_SONNE=/sys/bus/w1/devices/28-021503c262ff/w1_slave
+
+# Einstellungen für per LAN schaltbare Steckdose
+export SCHALTER_TYP=Rutenbeck_TPIP1
+export SCHALTER_IP=192.168.0.2
 
 bin/rails runner -e production "Temperatur.schreibe_temperatur" 2>>$LOG >>$LOG
 RC=$?
