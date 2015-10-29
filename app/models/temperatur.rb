@@ -48,26 +48,50 @@ class Temperatur < ActiveRecord::Base
 
   end
 
+  # Ermitteln Soll-Schaltstatus der Pumpe
+  def self.berechne_pumpen_status(vorlauf, ruecklauf, schatten, sonne)
+    # Einfluss-Faktoren:
+    #   Temperatur in Sonne
+    #   Temperatur Vorlauf (von Solaranlage zum Pool)
+    #   Temperatur Rücklauf (von Pumpe zu Solaranlage)
+    #   Dauer Pumpenaktivität am aktuellen Tag
+    #   Zeitpunkt der letzte Pumpenaktivität
+
+    # Bedingungen für Anschalten der Pumpe
+    if ( ruecklauf < sonne
+    )
+      set_schalter_status(1)    # Anschalten der Pumpe
+    else
+      set_schalter_status(0)    # Ausschalten der Pumpe
+    end
+
+  end
+
   def self.schreibe_temperatur
+    vorlauf      = read_temperature_from_file('FILENAME_VORLAUF')
+    ruecklauf    = read_temperature_from_file('FILENAME_RUECKLAUF')
+    schatten     = read_temperature_from_file('FILENAME_SCHATTEN')
+    sonne        = read_temperature_from_file('FILENAME_SONNE')
+
+    berechne_pumpen_status(vorlauf, ruecklauf, schatten, sonne)
 
     t = Temperatur.new(
-        :Vorlauf      => read_temperature_from_file('FILENAME_VORLAUF'),
-        :Ruecklauf    => read_temperature_from_file('FILENAME_RUECKLAUF'),
-        :Schatten     => read_temperature_from_file('FILENAME_SCHATTEN'),
-        :Sonne        => read_temperature_from_file('FILENAME_SONNE'),
+        :Vorlauf      => vorlauf,
+        :Ruecklauf    => ruecklauf,
+        :Schatten     => schatten,
+        :Sonne        => sonne,
         :Pumpenstatus => get_schalter_status      # 0/1
     )
     t.save
   end
 
   # Reduktion der Datenmenge nach Ablauf von Haltefristen
-  def housekeeping
+  def self.housekeeping
     # Nur Records auf 10er Minuten behalten wenn älter als x Tage
-    Temperatur.where("created_at > DATETIME('now', '-7 days')").find_each do |t|
+    # Nur Einzeltransaktionen, damit DB nicht länger als 5 Sekunden gelockt bleibt (Timeout)
+    Temperatur.where("created_at < DATETIME('now', '-7 days')").find_each do |t|
       t.destroy if t.created_at.min % 10 != 0
     end
-
-
   end
 
 end
