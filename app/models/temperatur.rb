@@ -82,7 +82,7 @@ class Temperatur < ActiveRecord::Base
 
     wegen_zyklischer_reinigung_aktiv = last_aktiv.nil? || last_aktiv < Time.now - (60*MAX_INAKTIV_MINUTEN_TAGSUEBER)
 
-    Rails.logger.info "Pumpe an wegen: Temperatur=#{wegen_temperatur_aktiv}, Zirkulationszeit=#{wegen_zirkulationszeit_aktiv}, Reinigung=#{wegen_zyklischer_reinigung_aktiv}"
+    #puts "Pumpe an wegen: Temperatur=#{wegen_temperatur_aktiv}, Zirkulationszeit=#{wegen_zirkulationszeit_aktiv}, Reinigung=#{wegen_zyklischer_reinigung_aktiv}"
 
     # Bedingungen für Anschalten der Pumpe
     if wegen_temperatur_aktiv || wegen_zirkulationszeit_aktiv || wegen_zyklischer_reinigung_aktiv
