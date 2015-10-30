@@ -49,6 +49,9 @@ class Temperatur < ActiveRecord::Base
   end
 
   # Ermitteln Soll-Schaltstatus der Pumpe
+  MAX_STUNDE_AKTIV=17                                                         # Bis wann soll die Pumpe max. aktiv sein, um die Mindestumwälzzeit zu erreichen
+  MIN_AKTIV_STUNDEN_JE_TAG = 4
+  TAGE_RUCKWAERTS_MINDESTENS_AKTIV = 4                                        # Anzahl der Tage, für die in Summe Aktivzeit der Pumpe > x sein soll
   def self.berechne_pumpen_status(vorlauf, ruecklauf, schatten, sonne)
     # Einfluss-Faktoren:
     #   Temperatur in Sonne
@@ -57,9 +60,6 @@ class Temperatur < ActiveRecord::Base
     #   Dauer Pumpenaktivität am aktuellen Tag
     #   Zeitpunkt der letzte Pumpenaktivität
 
-    MAX_STUNDE_AKTIV=17                                                         # Bis wann soll die Pumpe max. aktiv sein, um die Mindestumwälzzeit zu erreichen
-    MIN_AKTIV_STUNDEN_JE_TAG = 4
-    TAGE_RUCKWAERTS_MINDESTENS_AKTIV = 4                                        # Anzahl der Tage, für die in Summe Aktivzeit der Pumpe > x sein soll
     start_betrachtung = Time.now.change(:hour=>0) - TAGE_RUCKWAERTS_MINDESTENS_AKTIV*24*60*60
     pumpe_aktiv_letzte_tage = Temperatur.where(['Pumpenstatus=1 AND created_at > ?', start_betrachtung]).sum(:Pumpenstatus).to_f/60
     fehlende_stunden_heute = (MIN_AKTIV_STUNDEN_JE_TAG * TAGE_RUCKWAERTS_MINDESTENS_AKTIV) - pumpe_aktiv_letzte_tage
