@@ -55,3 +55,12 @@ body {
     padding: 5px;
 }
 
+table {
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+tbody td,tbody th {
+    padding: 5px;
+    background: #eee;
+}

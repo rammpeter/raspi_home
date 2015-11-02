@@ -21,6 +21,11 @@
             <%= button_tag('Temperaturverlauf variabel' ) %>
         <% end %>
       </div>
+      <div class="float_button">
+        <%= form_tag(url_for(:controller=>:auswertung, :action=>:show_konfiguration)) do %>
+            <%= button_tag('Konfiguration' ) %>
+        <% end %>
+      </div>
       <div style="clear: both"></div>
     </div>
     <%= yield %>
