@@ -26,7 +26,6 @@
 //= require slick.core
 //= require slick.grid
 //= require slick.dataview
-//= require jquery.contextmenu.js
 
 //= require_tree .
 
