@@ -19,7 +19,7 @@
 //   Weitere Einstellungen fuer options
 //      yaxis:          { min: 0 }              // Minimaler Wert
 
-function plot_diagram(unique_id, plot_area_id, caption, data_array, options){
+    function plot_diagram(unique_id, plot_area_id, caption, data_array, options){
     var p = new plot_diagram_class(unique_id, plot_area_id, caption, data_array, options);
     p.initialize();
     return p;
@@ -242,11 +242,6 @@ function plot_diagram_class(unique_id, plot_area_id, caption, data_array, option
         }
     }
 
-
-
-
-
-
     this.registerLegend = function(){
         updateLegendTimeout = null;                                             // Sicherstellen, dass Timeout neu aufgeseztz wird
 
@@ -280,19 +275,26 @@ function plot_diagram_class(unique_id, plot_area_id, caption, data_array, option
         } else {
             x_legend_title = 'X';
         }
-        jQuery('#'+canvas_id+" .legend").find("table").addClass('legend_table');
+
+        var legend_div = jQuery('#'+canvas_id+" .legend");
+
+        legend_div.children('div').detach();                                    // Entfernen eines Div ohne Funktion vor der legend_table, das sonst in der Größe mitgerführt werden müsste
+        legend_div.find("table").addClass('legend_table');
         if (jQuery('#'+canvas_id+" .legendXAxis").length == 0) {                // bei erstmaligem aufruf Zeile hinzufügen, nicht bei jedem Resize
 
-            // Spalte zufügen für die Werte-Anzeige
-            jQuery('#' + canvas_id + " .legend").find("tr").each(function(index, elem){
+            // Spalte zufügen für die Werte-Anzeige und für Schliesser
+            legend_div.find("tr").each(function(index, elem){
                 var tr = jQuery(elem)
                 var legend_name = jQuery(tr.children('td')[1]).html();
                 legend_indexes[legend_name] = index;                            // Position zum Name der Kurve in der Legende merken
-                tr.append("<td align='right' class='legend_value'></td>td>");
+                tr.append("<td align='right' class='legend_value'></td>");
+
+                //var escaped_legend_name = $("<div>").text(legend_name).html();
+                tr.append("<td><a href='#' title='"+locale_translate('diagram_remove_chart')+"' style='color:red' onclick='delete_single_plot_chart(\""+plot_area_id+"\", "+index+");'>X</a></td>");
             });
 
             // Zeile für Anzeige des Zeitstempels zufügen
-            jQuery('#' + canvas_id + " .legend").find("tbody").append("<tr><td></td><td>" + x_legend_title + "</td><td class='legendXAxis'></td></tr>");
+            legend_div.find("tbody").append("<tr><td></td><td>" + x_legend_title + "</td><td class='legendXAxis'></td></tr>");
         }
         legendXAxis         = jQuery('#'+canvas_id+" .legendXAxis");             // merken für wiederholte Verwendung
         legend_values       = jQuery('#'+canvas_id+" .legend_value");            // Liste der letzten Spalten merken für wiederholte Verwendung
@@ -306,9 +308,33 @@ function plot_diagram_class(unique_id, plot_area_id, caption, data_array, option
         }
 
 //        jQuery('#'+canvas_id+" .legend").draggable().css("left", -9).css("top", canvas_height*-1+9); // Legende verschiebbar gestalten, da dann mit position:relative gearbeitet wird, muss neu positioniert werden
-        jQuery('#'+canvas_id+" .legend").draggable();
+        legend_div.draggable();
     }
 
+    this.delete_single_chart = function(legend_index){
+
+        // ermitteln des legenden-Namen über Index in table
+        var legend_name = '';
+        jQuery.each(legend_indexes, function(index, value){
+            if (value == legend_index){
+                legend_name = index;
+            }
+        });
+
+        //if (!confirm(locale_translate('diagram_remove_chart_confirm')+' "'+legend_name+'"?' ) )
+        //    return;
+
+        // Finden der korrespondierenden Kurve im Data-Array (kann anders sortiert sein) und entfernen dieser
+        for (var data_index in data_array) {
+            if (data_array[data_index].label == legend_name){
+                if (data_array[data_index]['delete_callback']){
+                    data_array[data_index]['delete_callback'](legend_name);     // deregistrieren der Spalte beim Aufrufer wenn callback hinterlegt
+                }
+                data_array.splice(data_index, 1);                               // Entfernen des Elements aus Data_Array
+                plot_diagram(unique_id, plot_area_id, caption, data_array, options);    // Neuzeichnen des Diagramm
+            }
+        }
+    }
 
 
     /**
@@ -396,6 +422,14 @@ function plot_diagram_class(unique_id, plot_area_id, caption, data_array, option
                 'en': 'Show single values as circle',
                 'de': 'Einzelwerte als Kreis zeigen'
             },
+            'diagram_remove_chart': {
+                'en': 'Remove this chart from diagram',
+                'de': 'Diese Kurve aus dem Diagramm entfernen'
+            },
+            'diagram_remove_chart_confirm': {
+                'en': 'Remove chart',
+                'de': 'Entfernen der Kurve'
+            },
         }
     }
 
@@ -410,5 +444,12 @@ function resize_plot_diagrams(){
         }
     );
 }
+
+// Entfernen einer konkreten Kurve
+function delete_single_plot_chart(plot_area_id, index){
+    jQuery('#'+plot_area_id).data('plot_diagram').delete_single_chart(index);   // Weitergabe Event an Methode des plot_diagram-Objektes
+    return false;
+}
+
 
 
