@@ -59,8 +59,5 @@ class AuswertungController < ApplicationController
     render :template => 'auswertung/list_temperatur_verlauf'
   end
 
-  def show_konfiguration
-
-  end
 
 end

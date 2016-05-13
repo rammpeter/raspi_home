@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'konfiguration/show_konfiguration'
+
   get 'auswertung/list_temperatur_verlauf'
 
   #get 'auswertung/show_temperatur_verlauf'
