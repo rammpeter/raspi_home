@@ -58,6 +58,7 @@ class Temperatur < ActiveRecord::Base
   INAKTIV_BETRACHTUNG_ENDE=17                                                   # Bis zu welcher Stunde des Tages soll die kurzzeitige Aktivierung bei Überschreiten der maximalen Inaktivität überwacht werden
   MIN_AKTIV_FUER_REINIGUNG=2                                                    # Für wieviel Minuten soll Reinigung aktiv sein bei Überschreiten der maximalen Inaktivität
 
+  # Wie soll Pumpe arbeiten in Abhängigkeit der Werte und Vorgeschichte?
   def self.berechne_pumpen_status(vorlauf, ruecklauf, schatten, sonne)
     # Einfluss-Faktoren:
     #   Temperatur in Sonne
@@ -79,7 +80,7 @@ class Temperatur < ActiveRecord::Base
 
     # Verschiedene Bedingungen für Aktiv-Schaltung der Pumpe
     wegen_temperatur_aktiv = ruecklauf < sonne &&                                                   # muss immer erfüllt sein
-        (min_pumpe_aktiv_zyklus >= MIN_AKTIV_MINUTEN_VOR_VERGLEICH || vorlauf > ruecklauf )   # Wenn Pumpe bereits x Minuten lief, dann muss Vorlauf wärmer sein als Rücklauf
+        (min_pumpe_aktiv_zyklus < MIN_AKTIV_MINUTEN_VOR_VERGLEICH || vorlauf > ruecklauf )   # Wenn Pumpe bereits x Minuten lief, dann muss Vorlauf wärmer sein als Rücklauf
 
     wegen_zirkulationszeit_aktiv = fehlende_stunden_heute > 0 &&                                           # Es fehlt noch Zirkulationszeit
         Time.now.change(:hour=>MAX_STUNDE_AKTIV) - Time.now < (fehlende_stunden_heute * 3600)  # Zirkulationsszeit nicht mehr zu schaffen bis max. Stunde?
