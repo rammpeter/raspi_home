@@ -63,7 +63,21 @@
         </tr>
         <tr>
           <td>Für wieviel Minuten soll Reinigung aktiv sein bei Überschreiten der maximalen Inaktivität</td>
-          <td style="text-align: right"><%= Temperatur.const_get(:MIN_AKTIV_FUER_REINIGUNG) %></td>
+          <td style="text-align: right"><%= text_field_tag(:Min_Aktiv_Fuer_Reinigung, @konfiguration.Min_Aktiv_Fuer_Reinigung, :style=>'text-align:right;') %></td>
+        </tr>
+      </table>
+    </fieldset>
+
+    <fieldset>
+      <legend>Absicherung des Zugriffs</legend>
+      <table border="1" width="100%">
+        <tr>
+          <td>Benutzername für Absicherung des Zugriffs auf Konfiguration</td>
+          <td style="text-align: left"><%= text_field_tag(:UserName, @konfiguration.UserName)  %></td>
+        </tr>
+        <tr>
+          <td>Passwort für Absicherung des Zugriffs auf Konfiguration</td>
+          <td style="text-align: left"><%= text_field_tag(:Passwort, @konfiguration.Passwort) %></td>
         </tr>
       </table>
     </fieldset>

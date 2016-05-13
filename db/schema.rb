@@ -11,7 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151028000000) do
+ActiveRecord::Schema.define(version: 20160513000000) do
+
+  create_table "konfigurations", force: :cascade do |t|
+    t.string   "UserName"
+    t.string   "Passwort"
+    t.integer  "Max_Stunde_Aktiv"
+    t.integer  "Min_Aktiv_Stunden_je_Tag"
+    t.integer  "Tage_Rueckwaerts_Mindestens_Aktiv"
+    t.integer  "Min_Aktiv_Minuten_Vor_Vergleich"
+    t.integer  "Max_Inaktiv_Minuten_Tagsueber"
+    t.integer  "Inaktiv_Betrachtung_Start"
+    t.integer  "Inaktiv_Betrachtung_Ende"
+    t.integer  "Min_Aktiv_Fuer_Reinigung"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  add_index "konfigurations", ["created_at"], name: "index_konfigurations_on_created_at"
 
   create_table "temperaturs", force: :cascade do |t|
     t.datetime "Zeit"

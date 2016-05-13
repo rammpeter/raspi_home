@@ -21,11 +21,11 @@ class TemperaturTest < ActiveSupport::TestCase
   end
 
   test "schreibe_temperatur" do
-    start_count = Temperatur.find_each.count
+    start_count = Temperatur.count
     Temperatur.schreibe_temperatur
     sleep(1)
     Temperatur.schreibe_temperatur
 
-    assert Temperatur.find_each.count == start_count + 2
+    assert Temperatur.count == start_count + 2
   end
 end
