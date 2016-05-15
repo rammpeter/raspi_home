@@ -7,12 +7,11 @@
         link_to('Historie', {:action => :show_historie, :column => column}, {:title => 'Anzeige der Änderungshistorie dieses Feldes'}  )
       end
 
-
       def column_record(column, align = 'right')
         "<tr>
            <td>#{Konfiguration.get_title(column)}</td>
            <td style='text-align: right;'>#{text_field(:konfiguration, column, :style=>"text-align:#{align};")}</td>
-           <td>#{link_to('Historie', {:action => :show_historie, :column => column}, {:title => 'Anzeige der Änderungshistorie dieses Feldes'}  )}</td>
+           <td>#{hist(column)}</td>
          </tr>
         ".html_safe
       end
@@ -64,20 +63,21 @@
 
         <fieldset>
           <legend>Betriebsmodus der Pumpensteuerung</legend>
-          <table width="100%">
+          <table border="1" width="100%">
             <tr>
               <td>
-                Automatisch (entsprechend Regeln)
                 <%= radio_button(:konfiguration, :modus, 0)%>
+                Automatisch (entsprechend Regeln)
               </td>
               <td>
-                Ständig an (Regeln inaktiv)
                 <%= radio_button(:konfiguration, :modus, 1)%>
+                Ständig an (Regeln inaktiv)
               </td>
               <td>
-                Ständig aus (Regeln inaktiv)
                 <%= radio_button(:konfiguration, :modus, 2)%>
+                Ständig aus (Regeln inaktiv)
               </td>
+              <td><%= hist(:modus) %></td>
             </tr>
           </table>
         </fieldset>

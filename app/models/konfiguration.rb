@@ -42,6 +42,10 @@ class Konfiguration < ActiveRecord::Base
             :initial_value  => 'hauptstrasse18',
             :title          => 'Passwort für Absicherung des Zugriffs auf Konfiguration'
         },
+        :modus => {
+            :initial_value  => 0,
+            :title          => 'Betriebsmodus der Pumpensteuerung (0=automatisch, 1=ständig an, 2=ständig aus'
+        },
     }
   end
 
