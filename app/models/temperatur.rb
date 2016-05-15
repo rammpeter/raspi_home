@@ -49,15 +49,6 @@ class Temperatur < ActiveRecord::Base
   end
 
   # Ermitteln Soll-Schaltstatus der Pumpe
-  MAX_STUNDE_AKTIV=17                                                           # Bis wann soll die Pumpe max. aktiv sein, um die Mindestumwälzzeit zu erreichen
-  MIN_AKTIV_STUNDEN_JE_TAG = 4                                                  # Wieviel Stunden je Tag soll Pumpe mindestens zirkulieren
-  TAGE_RUCKWAERTS_MINDESTENS_AKTIV = 4                                          # Anzahl der Tage, für die in Summe Aktivzeit der Pumpe > x sein soll
-  MIN_AKTIV_MINUTEN_VOR_VERGLEICH=5                                             # Mindest-Aktivzeit der Pumpe in Minute, bevor Vorlauf und Ruecklauf verglichen werden
-  MAX_INAKTIV_MINUTEN_TAGSUEBER=60                                              # Max. Inaktivität tagsüber für Reinigung der Oberfläche
-  INAKTIV_BETRACHTUNG_START=6                                                   # Ab welcher Stunde des Tages soll die kurzzeitige Aktivierung bei Überschreiten der maximalen Inaktivität überwacht werden
-  INAKTIV_BETRACHTUNG_ENDE=17                                                   # Bis zu welcher Stunde des Tages soll die kurzzeitige Aktivierung bei Überschreiten der maximalen Inaktivität überwacht werden
-  MIN_AKTIV_FUER_REINIGUNG=2                                                    # Für wieviel Minuten soll Reinigung aktiv sein bei Überschreiten der maximalen Inaktivität
-
   # Wie soll Pumpe arbeiten in Abhängigkeit der Werte und Vorgeschichte?
   def self.berechne_pumpen_status(vorlauf, ruecklauf, schatten, sonne)
     # Einfluss-Faktoren:
@@ -67,29 +58,35 @@ class Temperatur < ActiveRecord::Base
     #   Dauer Pumpenaktivität am aktuellen Tag
     #   Zeitpunkt der letzte Pumpenaktivität
 
-    start_betrachtung = Time.now.change(:hour=>0) - TAGE_RUCKWAERTS_MINDESTENS_AKTIV*24*60*60
+    konf = Konfiguration.get_aktuelle_konfiguration
+
+    start_betrachtung = Time.now.change(:hour=>0) - konf.Tage_Rueckwaerts_Mindestens_Aktiv*24*60*60
     pumpe_aktiv_letzte_tage = Temperatur.where(['Pumpenstatus=1 AND created_at > ?', start_betrachtung]).sum(:Pumpenstatus).to_f/60
-    fehlende_stunden_heute = (MIN_AKTIV_STUNDEN_JE_TAG * TAGE_RUCKWAERTS_MINDESTENS_AKTIV) - pumpe_aktiv_letzte_tage
+    fehlende_stunden_heute = (konf.Min_Aktiv_Stunden_je_Tag * konf.Tage_Rueckwaerts_Mindestens_Aktiv) - pumpe_aktiv_letzte_tage
     fehlende_stunden_heute = 0 if fehlende_stunden_heute < 0
     last_aktiv = Temperatur.where(['Pumpenstatus=1 AND created_at > ?', start_betrachtung]).maximum(:created_at)
-    aktiv_in_inaktiv_ueberwachung = Temperatur.where(['Pumpenstatus=1 AND created_at > ?', Time.now - (60*MAX_INAKTIV_MINUTEN_TAGSUEBER)]).sum(:Pumpenstatus)      # aktive Minuten innerhalb des Zeitraumes der Überwachung auf Inaktivität
+    aktiv_in_inaktiv_ueberwachung = Temperatur.where(['Pumpenstatus=1 AND created_at > ?', Time.now - (60*konf.Max_Inaktiv_Minuten_Tagsueber)]).sum(:Pumpenstatus)      # aktive Minuten innerhalb des Zeitraumes der Überwachung auf Inaktivität
 
     last_record = Temperatur.last
 
-    min_pumpe_aktiv_zyklus = Temperatur.where(['ID > ?-?', last_record.id, MIN_AKTIV_MINUTEN_VOR_VERGLEICH]).sum(:Pumpenstatus)    # Anzahl der letzten minütlichen Messungen mit Pumpe aktiv
+    min_pumpe_aktiv_zyklus = Temperatur.where(['ID > ?-?', last_record.id, konf.Min_Aktiv_Minuten_Vor_Vergleich]).sum(:Pumpenstatus)    # Anzahl der letzten minütlichen Messungen mit Pumpe aktiv
 
     # Verschiedene Bedingungen für Aktiv-Schaltung der Pumpe
     wegen_temperatur_aktiv = ruecklauf < sonne &&                                                   # muss immer erfüllt sein
-        (min_pumpe_aktiv_zyklus < MIN_AKTIV_MINUTEN_VOR_VERGLEICH || vorlauf > ruecklauf )   # Wenn Pumpe bereits x Minuten lief, dann muss Vorlauf wärmer sein als Rücklauf
+        (min_pumpe_aktiv_zyklus < konf.Min_Aktiv_Minuten_Vor_Vergleich || vorlauf > ruecklauf )   # Wenn Pumpe bereits x Minuten lief, dann muss Vorlauf wärmer sein als Rücklauf
 
     wegen_zirkulationszeit_aktiv = fehlende_stunden_heute > 0 &&                                           # Es fehlt noch Zirkulationszeit
-        Time.now.change(:hour=>MAX_STUNDE_AKTIV) - Time.now < (fehlende_stunden_heute * 3600)  # Zirkulationsszeit nicht mehr zu schaffen bis max. Stunde?
+        Time.now.change(:hour=>konf.Max_Stunde_Aktiv) - Time.now < (fehlende_stunden_heute * 3600)  # Zirkulationsszeit nicht mehr zu schaffen bis max. Stunde?
 
-    wegen_zyklischer_reinigung_aktiv = (last_aktiv.nil? || last_aktiv < Time.now - (60*MAX_INAKTIV_MINUTEN_TAGSUEBER)) &&
-        Time.now > Time.now.change(:hour=>INAKTIV_BETRACHTUNG_START)  &&
-        Time.now < Time.now.change(:hour=>INAKTIV_BETRACHTUNG_ENDE)
+    wegen_zyklischer_reinigung_aktiv = ( last_aktiv.nil? ||
+                                         last_aktiv < Time.now - (60*konf.Max_Inaktiv_Minuten_Tagsueber)
+                                        # TODO kong.Min_Aktiv_Fuer_Reinigung auswerten
+                                         #Time.now - last_aktiv <
+                                       ) &&
+        Time.now > Time.now.change(:hour=>konf.Inaktiv_Betrachtung_Start)  &&
+        Time.now < Time.now.change(:hour=>konf.Inaktiv_Betrachtung_Ende)
 
-    #puts "Pumpe an wegen: Temperatur=#{wegen_temperatur_aktiv}, Zirkulationszeit=#{wegen_zirkulationszeit_aktiv}, Reinigung=#{wegen_zyklischer_reinigung_aktiv}"
+    #puts "#{Time.now} Pumpe an wegen: Temperatur=#{wegen_temperatur_aktiv}, Zirkulationszeit=#{wegen_zirkulationszeit_aktiv}, Reinigung=#{wegen_zyklischer_reinigung_aktiv}"
 
     # Bedingungen für Anschalten der Pumpe
     if wegen_temperatur_aktiv || wegen_zirkulationszeit_aktiv || wegen_zyklischer_reinigung_aktiv
