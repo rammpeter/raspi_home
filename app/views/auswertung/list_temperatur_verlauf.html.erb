@@ -6,22 +6,22 @@
 <script type="text/javascript">
     jQuery(function($){
         var data_array = [
-            {   label: 'Vorlauf',
+            {   label: 'Temperatur Vorlauf',
                 data: [
                     <%= @vorlauf %>
                 ]
             },
-            {   label: 'Rücklauf',
+            {   label: 'Temperatur Rücklauf',
                 data: [
                     <%= @ruecklauf %>
                 ]
             },
-            {   label: 'Sonne',
+            {   label: 'Temperatur Sonne',
                 data: [
                     <%= @sonne %>
                 ]
             },
-            {   label: 'Schatten',
+            {   label: 'Temperatur Schatten',
                 data: [
                     <%= @schatten %>
                 ]
@@ -29,6 +29,21 @@
             {   label: 'Pumpe an/aus',
                 data: [
                     <%= @pumpenstatus %>
+                ]
+            },
+            {   label: 'Wegen Temperatur',
+                data: [
+                    <%= @wegen_temperatur_aktiv %>
+                ]
+            },
+            {   label: 'Wegen Zirkulationszeit',
+                data: [
+                    <%= @wegen_zirkulationszeit_aktiv %>
+                ]
+            },
+            {   label: 'Wegen zykl. Reinigung',
+                data: [
+                    <%= @wegen_zyklischer_reinigung_aktiv %>
                 ]
             }
         ];
