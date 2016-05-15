@@ -1,0 +1,11 @@
+<div class="page">
+  <h3>Historie der Änderungen für:<br/><%= Konfiguration.get_title(@column) %></h3>
+  <table border="1">
+    <% @historie.each do |h| %>
+      <tr>
+        <td><%= h[:created_at].strftime('%d.%m.%Y %H:%M:%S') %></td>
+        <td><%= h[:value] %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>

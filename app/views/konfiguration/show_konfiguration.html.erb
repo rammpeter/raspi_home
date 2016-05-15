@@ -2,14 +2,28 @@
   <div style="float: left">
     <h3>Aktuelle Konfiguration</h3>
 
+    <%
+      def hist(column)
+        link_to('Historie', {:action => :show_historie, :column => column}, {:title => 'Anzeige der Änderungshistorie dieses Feldes'}  )
+      end
+
+
+      def column_record(column, align = 'right')
+        "<tr>
+           <td>#{Konfiguration.get_title(column)}</td>
+           <td style='text-align: right;'>#{text_field(:konfiguration, column, :style=>"text-align:#{align};")}</td>
+           <td>#{link_to('Historie', {:action => :show_historie, :column => column}, {:title => 'Anzeige der Änderungshistorie dieses Feldes'}  )}</td>
+         </tr>
+        ".html_safe
+      end
+
+    %>
+
     <%= form_tag(url_for(:action=>:save_konfiguration)) do %>
         <fieldset>
           <legend>Steuerung über Temperatur-Werte</legend>
           <table border="1" width="100%">
-            <tr>
-              <td>Mindest-Aktivzeit der Pumpe in Minuten, bevor Vorlauf und Rücklauf verglichen werden bzw. Pumpe abgeschalten wird wenn Vorlauf < Rücklauf</td>
-              <td style="text-align: right"><%= text_field(:konfiguration, :Min_Aktiv_Minuten_Vor_Vergleich, :style=>'text-align:right;') %></td>
-            </tr>
+            <%= column_record(:Min_Aktiv_Minuten_Vor_Vergleich) %>
           </table>
         </fieldset>
 
@@ -18,18 +32,9 @@
         <fieldset>
           <legend>Steuerung über Zirkulations-Zeit</legend>
           <table border="1" width="100%">
-            <tr>
-              <td>Anzahl der Tage, für die in Summe über diese Tage die Mindestaktivitätszeit der Pumpe erricht sein soll</td>
-              <td style="text-align: right"><%= text_field(:konfiguration, :Tage_Rueckwaerts_Mindestens_Aktiv , :style=>'text-align:right;') %></td>
-            </tr>
-            <tr>
-              <td>Wieviel Stunden je Tag soll Pumpe mindestens aktiv sein (Wasser zirkulieren)?</td>
-              <td style="text-align: right"><%= text_field(:konfiguration, :Min_Aktiv_Stunden_je_Tag , :style=>'text-align:right;') %></td>
-            </tr>
-            <tr>
-              <td>Bis zu welcher Stunde des Tages soll die Pumpe maximal aktiv sein, um die Mindestumwälzzeit zu erreichen?</td>
-              <td style="text-align: right"><%= text_field(:konfiguration, :Max_Stunde_Aktiv , :style=>'text-align:right;') %></td>
-            </tr>
+            <%= column_record(:Tage_Rueckwaerts_Mindestens_Aktiv) %>
+            <%= column_record(:Min_Aktiv_Stunden_je_Tag) %>
+            <%= column_record(:Max_Stunde_Aktiv) %>
           </table>
         </fieldset>
 
@@ -38,22 +43,10 @@
         <fieldset>
           <legend>Steuerung für zyklische Reinigung der Wasseroberfläche</legend>
           <table border="1" width="100%">
-            <tr>
-              <td>Maximale Inaktivität tagsüber in Minuten, bevor für Reinigung der Oberfläche Pumpe kurz aktiviert wird</td>
-              <td style="text-align: right"><%= text_field(:konfiguration, :Max_Inaktiv_Minuten_Tagsueber, :style=>'text-align:right;') %></td>
-            </tr>
-            <tr>
-              <td>Ab welcher Stunde des Tages soll die kurzzeitige Aktivierung bei Überschreiten der maximalen Inaktivität überwacht werden?</td>
-              <td style="text-align: right"><%= text_field(:konfiguration, :Inaktiv_Betrachtung_Start, :style=>'text-align:right;') %></td>
-            </tr>
-            <tr>
-              <td>Bis zu welcher Stunde des Tages soll die kurzzeitige Aktivierung bei Überschreiten der maximalen Inaktivität überwacht werden</td>
-              <td style="text-align: right"><%= text_field(:konfiguration, :Inaktiv_Betrachtung_Ende, :style=>'text-align:right;') %></td>
-            </tr>
-            <tr>
-              <td>Für wieviel Minuten soll Reinigung aktiv sein bei Überschreiten der maximalen Inaktivität</td>
-              <td style="text-align: right"><%= text_field(:konfiguration, :Min_Aktiv_Fuer_Reinigung, :style=>'text-align:right;') %></td>
-            </tr>
+            <%= column_record(:Max_Inaktiv_Minuten_Tagsueber) %>
+            <%= column_record(:Inaktiv_Betrachtung_Start) %>
+            <%= column_record(:Inaktiv_Betrachtung_Ende) %>
+            <%= column_record(:Min_Aktiv_Fuer_Reinigung) %>
           </table>
         </fieldset>
 
@@ -62,14 +55,8 @@
         <fieldset>
           <legend>Absicherung des Zugriffs</legend>
           <table border="1" width="100%">
-            <tr>
-              <td>Benutzername für Absicherung des Zugriffs auf Konfiguration</td>
-              <td style="text-align: left"><%= text_field(:konfiguration, :UserName) %></td>
-            </tr>
-            <tr>
-              <td>Passwort für Absicherung des Zugriffs auf Konfiguration</td>
-              <td style="text-align: left"><%= text_field(:konfiguration, :Passwort) %></td>
-            </tr>
+            <%= column_record(:UserName, 'left') %>
+            <%= column_record(:Passwort, 'left') %>
           </table>
         </fieldset>
 
