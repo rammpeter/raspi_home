@@ -1,4 +1,13 @@
 class KonfigurationController < ApplicationController
+  before_action :authenticate
+
+  # Zugangsschutz für Konfiguration
+  def authenticate
+    authenticate_or_request_with_http_basic('Administration') do |username, password|
+      konf = Konfiguration.get_aktuelle_konfiguration
+      username == konf.UserName && password == konf.Passwort
+    end
+  end
 
   def show_konfiguration
     @konfiguration = Konfiguration.get_aktuelle_konfiguration

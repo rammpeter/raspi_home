@@ -104,7 +104,7 @@ class Temperatur < ActiveRecord::Base
     #puts "#{Time.now} Pumpe an wegen: Temperatur=#{wegen_temperatur_aktiv}, Zirkulationszeit=#{wegen_zirkulationszeit_aktiv}, Reinigung=#{wegen_zyklischer_reinigung_aktiv}"
 
     # Bedingungen für Anschalten der Pumpe
-    if wegen_temperatur_aktiv || wegen_zirkulationszeit_aktiv || wegen_zyklischer_reinigung_aktiv
+    if (wegen_temperatur_aktiv || wegen_zirkulationszeit_aktiv || wegen_zyklischer_reinigung_aktiv || konf.modus == 1 ) && konf.modus != 2
       set_schalter_status(1)    # Anschalten der Pumpe
     else
       set_schalter_status(0)    # Ausschalten der Pumpe
