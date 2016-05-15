@@ -29,7 +29,4 @@ class TemperaturTest < ActiveSupport::TestCase
     assert Temperatur.count == start_count + 2
   end
 
-  test "berechne_pumpen_status" do
-    Temperatur.berechne_pumpen_status(10,10,10,10)
-  end
 end

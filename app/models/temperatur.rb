@@ -50,7 +50,7 @@ class Temperatur < ActiveRecord::Base
 
   # Ermitteln Soll-Schaltstatus der Pumpe
   # Wie soll Pumpe arbeiten in Abhängigkeit der Werte und Vorgeschichte?
-  def self.berechne_pumpen_status(vorlauf, ruecklauf, schatten, sonne)
+  def self.schreibe_temperatur
     # Einfluss-Faktoren:
     #   Temperatur in Sonne
     #   Temperatur Vorlauf (von Solaranlage zum Pool)
@@ -58,8 +58,16 @@ class Temperatur < ActiveRecord::Base
     #   Dauer Pumpenaktivität am aktuellen Tag
     #   Zeitpunkt der letzte Pumpenaktivität
 
+    t = Temperatur.new(
+        :Vorlauf      => read_temperature_from_file('FILENAME_VORLAUF'),
+        :Ruecklauf    => read_temperature_from_file('FILENAME_RUECKLAUF'),
+        :Schatten     => read_temperature_from_file('FILENAME_SCHATTEN'),
+        :Sonne        => read_temperature_from_file('FILENAME_SONNE')
+    )
+
     konf = Konfiguration.get_aktuelle_konfiguration
 
+    # Ausgangswerte für Entscheidung:
     start_betrachtung = Time.now.change(:hour=>0) - konf.Tage_Rueckwaerts_Mindestens_Aktiv*24*60*60
     pumpe_aktiv_letzte_tage = Temperatur.where(['Pumpenstatus=1 AND created_at > ?', start_betrachtung]).sum(:Pumpenstatus).to_f/60
     fehlende_stunden_heute = (konf.Min_Aktiv_Stunden_je_Tag * konf.Tage_Rueckwaerts_Mindestens_Aktiv) - pumpe_aktiv_letzte_tage
@@ -72,8 +80,8 @@ class Temperatur < ActiveRecord::Base
     min_pumpe_aktiv_zyklus = Temperatur.where(['ID > ?-?', last_record.id, konf.Min_Aktiv_Minuten_Vor_Vergleich]).sum(:Pumpenstatus)    # Anzahl der letzten minütlichen Messungen mit Pumpe aktiv
 
     # Verschiedene Bedingungen für Aktiv-Schaltung der Pumpe
-    wegen_temperatur_aktiv = ruecklauf < sonne &&                                                   # muss immer erfüllt sein
-        (min_pumpe_aktiv_zyklus < konf.Min_Aktiv_Minuten_Vor_Vergleich || vorlauf > ruecklauf )   # Wenn Pumpe bereits x Minuten lief, dann muss Vorlauf wärmer sein als Rücklauf
+    wegen_temperatur_aktiv = t.Ruecklauf < t.Sonne &&                                                   # muss immer erfüllt sein
+        (min_pumpe_aktiv_zyklus < konf.Min_Aktiv_Minuten_Vor_Vergleich || t.Vorlauf > t.Ruecklauf )   # Wenn Pumpe bereits x Minuten lief, dann muss Vorlauf wärmer sein als Rücklauf
 
     wegen_zirkulationszeit_aktiv = fehlende_stunden_heute > 0 &&                                           # Es fehlt noch Zirkulationszeit
         Time.now.change(:hour=>konf.Max_Stunde_Aktiv) - Time.now < (fehlende_stunden_heute * 3600)  # Zirkulationsszeit nicht mehr zu schaffen bis max. Stunde?
@@ -95,23 +103,11 @@ class Temperatur < ActiveRecord::Base
       set_schalter_status(0)    # Ausschalten der Pumpe
     end
 
-  end
+    t.wegen_temperatur_aktiv            = wegen_temperatur_aktiv            ? 1 : 0
+    t.wegen_zirkulationszeit_aktiv      = wegen_zirkulationszeit_aktiv      ? 1 : 0
+    t.wegen_zyklischer_reinigung_aktiv  = wegen_zyklischer_reinigung_aktiv  ? 1 : 0
+    t.Pumpenstatus                      = get_schalter_status      # 0/1
 
-  def self.schreibe_temperatur
-    vorlauf      = read_temperature_from_file('FILENAME_VORLAUF')
-    ruecklauf    = read_temperature_from_file('FILENAME_RUECKLAUF')
-    schatten     = read_temperature_from_file('FILENAME_SCHATTEN')
-    sonne        = read_temperature_from_file('FILENAME_SONNE')
-
-    berechne_pumpen_status(vorlauf, ruecklauf, schatten, sonne)   # Muss statt finden bevor der aktuelle Record geschrieben wird
-
-    t = Temperatur.new(
-        :Vorlauf      => vorlauf,
-        :Ruecklauf    => ruecklauf,
-        :Schatten     => schatten,
-        :Sonne        => sonne,
-        :Pumpenstatus => get_schalter_status      # 0/1
-    )
     t.save
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160513000000) do
+ActiveRecord::Schema.define(version: 20160515000000) do
 
   create_table "konfigurations", force: :cascade do |t|
     t.string   "UserName"
@@ -32,13 +32,16 @@ ActiveRecord::Schema.define(version: 20160513000000) do
 
   create_table "temperaturs", force: :cascade do |t|
     t.datetime "Zeit"
-    t.decimal  "Vorlauf",      precision: 6, scale: 3
-    t.decimal  "Ruecklauf",    precision: 6, scale: 3
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.decimal  "Schatten",     precision: 6, scale: 3
-    t.decimal  "Sonne",        precision: 6, scale: 3
-    t.decimal  "Pumpenstatus", precision: 1
+    t.decimal  "Vorlauf",                          precision: 6, scale: 3
+    t.decimal  "Ruecklauf",                        precision: 6, scale: 3
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
+    t.decimal  "Schatten",                         precision: 6, scale: 3
+    t.decimal  "Sonne",                            precision: 6, scale: 3
+    t.decimal  "Pumpenstatus",                     precision: 1
+    t.integer  "wegen_temperatur_aktiv"
+    t.integer  "wegen_zirkulationszeit_aktiv"
+    t.integer  "wegen_zyklischer_reinigung_aktiv"
   end
 
   add_index "temperaturs", ["created_at"], name: "index_temperaturs_on_created_at"
