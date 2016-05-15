@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Zur Aktualisierung des Systems ausführen im Apllikations-Verzeichnis
+# Zur Aktualisierung des Systems ausführen im Applikations-Verzeichnis auf dem Raspi
 RC=0
 
 # Aktualisierung der Software
@@ -10,6 +10,7 @@ git pull
 bundle install
 
 # Anpassung der Datenbank an aktuelle Software
+export RAILS_ENV=production
 rake db:migrate
 
 # Neustart des Webservers
