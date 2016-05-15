@@ -79,17 +79,24 @@ class Temperatur < ActiveRecord::Base
 
     min_pumpe_aktiv_zyklus = Temperatur.where(['ID > ?-?', last_record.id, konf.Min_Aktiv_Minuten_Vor_Vergleich]).sum(:Pumpenstatus)    # Anzahl der letzten minütlichen Messungen mit Pumpe aktiv
 
+    # Anzahl der Minuten bereits aktiv wegen zyklischer Reinigung
+    minuten_pumpe_aktiv_wegen_reinigung = 0
+    Temperatur.last(konf.Min_Aktiv_Fuer_Reinigung+1).sort{|x,y| y.id <=> x.id}.each do |r|
+      break if r.wegen_zyklischer_reinigung_aktiv != 1                          # Nur zusammenhängende wegen_zyklischer_reinigung_aktiv zählen
+      minuten_pumpe_aktiv_wegen_reinigung += 1                                  # Zählen der Minuten
+    end
+
+
     # Verschiedene Bedingungen für Aktiv-Schaltung der Pumpe
-    wegen_temperatur_aktiv = t.Ruecklauf < t.Sonne &&                                                   # muss immer erfüllt sein
+    wegen_temperatur_aktiv = t.Ruecklauf < t.Sonne &&                                                 # muss immer erfüllt sein
         (min_pumpe_aktiv_zyklus < konf.Min_Aktiv_Minuten_Vor_Vergleich || t.Vorlauf > t.Ruecklauf )   # Wenn Pumpe bereits x Minuten lief, dann muss Vorlauf wärmer sein als Rücklauf
 
     wegen_zirkulationszeit_aktiv = fehlende_stunden_heute > 0 &&                                           # Es fehlt noch Zirkulationszeit
         Time.now.change(:hour=>konf.Max_Stunde_Aktiv) - Time.now < (fehlende_stunden_heute * 3600)  # Zirkulationsszeit nicht mehr zu schaffen bis max. Stunde?
 
     wegen_zyklischer_reinigung_aktiv = ( last_aktiv.nil? ||
-                                         last_aktiv < Time.now - (60*konf.Max_Inaktiv_Minuten_Tagsueber)
-                                        # TODO kong.Min_Aktiv_Fuer_Reinigung auswerten
-                                         #Time.now - last_aktiv <
+                                         last_aktiv < Time.now - (60*konf.Max_Inaktiv_Minuten_Tagsueber) ||
+                                         (minuten_pumpe_aktiv_wegen_reinigung > 0 && minuten_pumpe_aktiv_wegen_reinigung < konf.Min_Aktiv_Fuer_Reinigung )
                                        ) &&
         Time.now > Time.now.change(:hour=>konf.Inaktiv_Betrachtung_Start)  &&
         Time.now < Time.now.change(:hour=>konf.Inaktiv_Betrachtung_Ende)
