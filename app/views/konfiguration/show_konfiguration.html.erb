@@ -2,85 +2,82 @@
   <div style="float: left">
     <h3>Aktuelle Konfiguration</h3>
 
-    <fieldset>
-      <legend>Steuerung über Temperatur-Werte</legend>
-      <table border="1" width="100%">
-        <tr>
-          <th>Konfigurations-Parameter</th>
-          <th style="text-align: right">Wert</th>
-        </tr>
-        <tr>
-          <td>Mindest-Aktivzeit der Pumpe in Minuten, bevor Vorlauf und Rücklauf verglichen werden bzw. Pumpe abgeschalten wird wenn Vorlauf < Rücklauf</td>
-          <td style="text-align: right"><%= Temperatur.const_get(:MIN_AKTIV_MINUTEN_VOR_VERGLEICH) %></td>
-        </tr>
-      </table>
-    </fieldset>
+    <%= form_tag(url_for(:action=>:save_konfiguration)) do %>
+        <fieldset>
+          <legend>Steuerung über Temperatur-Werte</legend>
+          <table border="1" width="100%">
+            <tr>
+              <td>Mindest-Aktivzeit der Pumpe in Minuten, bevor Vorlauf und Rücklauf verglichen werden bzw. Pumpe abgeschalten wird wenn Vorlauf < Rücklauf</td>
+              <td style="text-align: right"><%= text_field(:konfiguration, :Min_Aktiv_Minuten_Vor_Vergleich, :style=>'text-align:right;') %></td>
+            </tr>
+          </table>
+        </fieldset>
 
-    <br>
+        <br>
 
-    <fieldset>
-      <legend>Steuerung über Zirkulations-Zeit</legend>
-      <table border="1" width="100%">
-        <tr>
-          <th>Konfigurations-Parameter</th>
-          <th style="text-align: right">Wert</th>
-        </tr>
-        <tr>
-          <td>Anzahl der Tage, für die in Summe über diese Tage die Mindestaktivitätszeit der Pumpe erricht sein soll</td>
-          <td style="text-align: right"><%= Temperatur.const_get(:TAGE_RUCKWAERTS_MINDESTENS_AKTIV) %></td>
-        </tr>
-        <tr>
-          <td>Wieviel Stunden je Tag soll Pumpe mindestens aktiv sein (Wasser zirkulieren)?</td>
-          <td style="text-align: right"><%= Temperatur.const_get(:MIN_AKTIV_STUNDEN_JE_TAG) %></td>
-        </tr>
-        <tr>
-          <td>Bis zu welcher Stunde des Tages soll die Pumpe maximal aktiv sein, um die Mindestumwälzzeit zu erreichen?</td>
-          <td style="text-align: right"><%= Temperatur.const_get(:MAX_STUNDE_AKTIV) %></td>
-        </tr>
-      </table>
-    </fieldset>
+        <fieldset>
+          <legend>Steuerung über Zirkulations-Zeit</legend>
+          <table border="1" width="100%">
+            <tr>
+              <td>Anzahl der Tage, für die in Summe über diese Tage die Mindestaktivitätszeit der Pumpe erricht sein soll</td>
+              <td style="text-align: right"><%= text_field(:konfiguration, :Tage_Rueckwaerts_Mindestens_Aktiv , :style=>'text-align:right;') %></td>
+            </tr>
+            <tr>
+              <td>Wieviel Stunden je Tag soll Pumpe mindestens aktiv sein (Wasser zirkulieren)?</td>
+              <td style="text-align: right"><%= text_field(:konfiguration, :Min_Aktiv_Stunden_je_Tag , :style=>'text-align:right;') %></td>
+            </tr>
+            <tr>
+              <td>Bis zu welcher Stunde des Tages soll die Pumpe maximal aktiv sein, um die Mindestumwälzzeit zu erreichen?</td>
+              <td style="text-align: right"><%= text_field(:konfiguration, :Max_Stunde_Aktiv , :style=>'text-align:right;') %></td>
+            </tr>
+          </table>
+        </fieldset>
 
-    <br>
+        <br>
 
-    <fieldset>
-      <legend>Steuerung für zyklische Reinigung der Wasseroberfläche</legend>
-      <table border="1" width="100%">
-        <tr>
-          <th>Konfigurations-Parameter</th>
-          <th style="text-align: right">Wert</th>
-        </tr>
-        <tr>
-          <td>Maximale Inaktivität tagsüber in Minuten, bevor für Reinigung der Oberfläche Pumpe kurz aktiviert wird</td>
-          <td style="text-align: right"><%= Temperatur.const_get(:MAX_INAKTIV_MINUTEN_TAGSUEBER) %></td>
-        </tr>
-        <tr>
-          <td>Ab welcher Stunde des Tages soll die kurzzeitige Aktivierung bei Überschreiten der maximalen Inaktivität überwacht werden?</td>
-          <td style="text-align: right"><%= Temperatur.const_get(:INAKTIV_BETRACHTUNG_START) %></td>
-        </tr>
-        <tr>
-          <td>Bis zu welcher Stunde des Tages soll die kurzzeitige Aktivierung bei Überschreiten der maximalen Inaktivität überwacht werden</td>
-          <td style="text-align: right"><%= Temperatur.const_get(:INAKTIV_BETRACHTUNG_ENDE) %></td>
-        </tr>
-        <tr>
-          <td>Für wieviel Minuten soll Reinigung aktiv sein bei Überschreiten der maximalen Inaktivität</td>
-          <td style="text-align: right"><%= text_field_tag(:Min_Aktiv_Fuer_Reinigung, @konfiguration.Min_Aktiv_Fuer_Reinigung, :style=>'text-align:right;') %></td>
-        </tr>
-      </table>
-    </fieldset>
+        <fieldset>
+          <legend>Steuerung für zyklische Reinigung der Wasseroberfläche</legend>
+          <table border="1" width="100%">
+            <tr>
+              <td>Maximale Inaktivität tagsüber in Minuten, bevor für Reinigung der Oberfläche Pumpe kurz aktiviert wird</td>
+              <td style="text-align: right"><%= text_field(:konfiguration, :Max_Inaktiv_Minuten_Tagsueber, :style=>'text-align:right;') %></td>
+            </tr>
+            <tr>
+              <td>Ab welcher Stunde des Tages soll die kurzzeitige Aktivierung bei Überschreiten der maximalen Inaktivität überwacht werden?</td>
+              <td style="text-align: right"><%= text_field(:konfiguration, :Inaktiv_Betrachtung_Start, :style=>'text-align:right;') %></td>
+            </tr>
+            <tr>
+              <td>Bis zu welcher Stunde des Tages soll die kurzzeitige Aktivierung bei Überschreiten der maximalen Inaktivität überwacht werden</td>
+              <td style="text-align: right"><%= text_field(:konfiguration, :Inaktiv_Betrachtung_Ende, :style=>'text-align:right;') %></td>
+            </tr>
+            <tr>
+              <td>Für wieviel Minuten soll Reinigung aktiv sein bei Überschreiten der maximalen Inaktivität</td>
+              <td style="text-align: right"><%= text_field(:konfiguration, :Min_Aktiv_Fuer_Reinigung, :style=>'text-align:right;') %></td>
+            </tr>
+          </table>
+        </fieldset>
 
-    <fieldset>
-      <legend>Absicherung des Zugriffs</legend>
-      <table border="1" width="100%">
-        <tr>
-          <td>Benutzername für Absicherung des Zugriffs auf Konfiguration</td>
-          <td style="text-align: left"><%= text_field_tag(:UserName, @konfiguration.UserName)  %></td>
-        </tr>
-        <tr>
-          <td>Passwort für Absicherung des Zugriffs auf Konfiguration</td>
-          <td style="text-align: left"><%= text_field_tag(:Passwort, @konfiguration.Passwort) %></td>
-        </tr>
-      </table>
-    </fieldset>
+        <br>
+
+        <fieldset>
+          <legend>Absicherung des Zugriffs</legend>
+          <table border="1" width="100%">
+            <tr>
+              <td>Benutzername für Absicherung des Zugriffs auf Konfiguration</td>
+              <td style="text-align: left"><%= text_field(:konfiguration, :UserName) %></td>
+            </tr>
+            <tr>
+              <td>Passwort für Absicherung des Zugriffs auf Konfiguration</td>
+              <td style="text-align: left"><%= text_field(:konfiguration, :Passwort) %></td>
+            </tr>
+          </table>
+        </fieldset>
+
+        <br>
+
+        <%= submit_tag('Speichern') %>
+    <% end %>
+
 
   </div>
   <div style="float: right">
