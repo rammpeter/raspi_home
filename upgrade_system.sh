@@ -7,6 +7,7 @@ RC=0
 git pull
 
 # Abhängigkeiten nachladen
+rm Gemfile.lock
 bundle install
 
 # Anpassung der Datenbank an aktuelle Software
