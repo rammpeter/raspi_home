@@ -44,7 +44,7 @@ class Konfiguration < ActiveRecord::Base
         },
         :modus => {
             :initial_value  => 0,
-            :title          => 'Betriebsmodus der Pumpensteuerung (0=automatisch, 1=ständig an, 2=ständig aus'
+            :title          => 'Betriebsmodus der Pumpensteuerung (0=automatisch, 1=ständig an, 2=ständig aus)'
         },
     }
   end
@@ -74,4 +74,14 @@ class Konfiguration < ActiveRecord::Base
     ensure_first_record
     Konfiguration.last
   end
+
+  ########### Formatierung der Werte
+  def modus_text
+    case self.modus
+      when 0 then 'Automatisch'
+      when 1 then 'ständig an'
+      when 2 then 'ständig aus'
+    end
+  end
+
 end

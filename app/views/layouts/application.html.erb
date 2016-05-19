@@ -12,6 +12,11 @@
     </div>
     <div class="buttons">
       <div class="float_button">
+        <%= form_tag(url_for(:controller=>:Welcome, :action=>:index)) do %>
+            <%= button_tag('Status aktuell' ) %>
+        <% end %>
+      </div>
+      <div class="float_button">
         <%= form_tag(url_for(:controller=>:auswertung, :action=>:show_temperatur_verlauf_aktuell)) do %>
             <%= button_tag('Temperaturverlauf gestern und heute' ) %>
         <% end %>

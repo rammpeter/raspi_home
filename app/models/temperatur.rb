@@ -127,4 +127,14 @@ class Temperatur < ActiveRecord::Base
     end
   end
 
+  ###### Formatierungsfunktionen ############
+  def pumpe_an_grund
+    retval = ''
+    retval << 'Außentemperatur, '       unless self.wegen_temperatur_aktiv.nil?
+    retval << 'Zirkulationszeit, '      unless self.wegen_zirkulationszeit_aktiv.nil?
+    retval << 'zyklischer Reinigung, '  unless self.wegen_zyklischer_reinigung_aktiv.nil?
+    retval = retval[0, retval.length-2] if retval.length > 2
+    retval = 'Manuell dauerhaft aktiv' if retval.length == 0 && self.Pumpenstatus > 0
+  end
+
 end

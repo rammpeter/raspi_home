@@ -1,2 +1,30 @@
+<div class="page">
+  <h3>Aktueller Status <%= @temperatur.created_at.strftime('%d.%m.%Y %H:%M:%S') %></h3>
+  <table border="1">
+    <tr>
+      <td>Temperatur in der Sonne</td><td align="right"><%= @temperatur.Sonne %> °</td>
+    </tr>
+    <tr>
+      <td>Temperatur im Schatten</td><td align="right"><%= @temperatur.Schatten %> °</td>
+    </tr>
+    <tr>
+      <td>Temperatur im Vorlauf (nach Durchlaufen der Solaranlage)</td><td align="right"><%= @temperatur.Vorlauf %> °</td>
+    </tr>
+    <tr>
+      <td>Temperatur im Rücklauf (enstpricht der Beckentemperatur wenn Pumpe läuft)</td><td align="right"><%= @temperatur.Ruecklauf %> °</td>
+    </tr>
+    <tr>
+      <td>Pumpenbetrieb</td><td><%= @temperatur.Pumpenstatus == 0 ? 'AUS' : 'AN' %></td>
+    </tr>
+    <tr>
+      <td>Pumpe an wegen</td><td><%= @temperatur.pumpe_an_grund %></td>
+    </tr>
+    <tr>
+      <td>Pumpensteuerung</td><td><%= @konfiguration.modus_text %></td>
+    </tr>
 
+  </table>
+
+
+</div>
 
