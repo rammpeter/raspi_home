@@ -1,0 +1,10 @@
+<div class="page">
+  <div style="color:red"><%= flash[:message] %></div><br/>
+  <%= form_tag(url_for(:action=>:do_auth)) do %>
+      Benutzer
+      <%= text_field_tag(:username,     '', :id=>:username, :autocomplete=>:on, :size=>20, :title=>"Benutzer-Name für Konfiguration" ) %>
+      Passwort
+      <%= password_field_tag(:password, '', :id=>:password, :autocomplete=>:on, :size=>20, :title=>"Passwort für Konfiguration" ) %>
+      <%= submit_tag('Anmelden') %>
+<% end %>
+</div>

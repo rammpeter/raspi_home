@@ -135,6 +135,7 @@ class Temperatur < ActiveRecord::Base
     retval << 'zyklischer Reinigung, '  if self.wegen_zyklischer_reinigung_aktiv  == 1
     retval = retval[0, retval.length-2] if retval.length > 2
     retval = 'Manuell dauerhaft aktiv' if retval.length == 0 && self.Pumpenstatus > 0
+    retval
   end
 
 end

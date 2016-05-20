@@ -1,5 +1,5 @@
 <div class="page">
-  <h3>Aktueller Status <%= @temperatur.created_at.strftime('%d.%m.%Y %H:%M:%S') %></h3>
+  <h3>Aktueller Status von <%= @temperatur.created_at.strftime('%d.%m.%Y %H:%M:%S') %></h3>
   <table border="1">
     <tr>
       <td>Temperatur in der Sonne</td><td align="right"><%= @temperatur.Sonne.round(1) %> °</td>
