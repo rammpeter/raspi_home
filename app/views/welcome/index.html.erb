@@ -2,16 +2,16 @@
   <h3>Aktueller Status <%= @temperatur.created_at.strftime('%d.%m.%Y %H:%M:%S') %></h3>
   <table border="1">
     <tr>
-      <td>Temperatur in der Sonne</td><td align="right"><%= @temperatur.Sonne %> °</td>
+      <td>Temperatur in der Sonne</td><td align="right"><%= @temperatur.Sonne.round(1) %> °</td>
     </tr>
     <tr>
-      <td>Temperatur im Schatten</td><td align="right"><%= @temperatur.Schatten %> °</td>
+      <td>Temperatur im Schatten</td><td align="right"><%= @temperatur.Schatten.round(1) %> °</td>
     </tr>
     <tr>
-      <td>Temperatur im Vorlauf (nach Durchlaufen der Solaranlage)</td><td align="right"><%= @temperatur.Vorlauf %> °</td>
+      <td>Temperatur im Vorlauf (nach Durchlaufen der Solaranlage)</td><td align="right"><%= @temperatur.Vorlauf.round(1) %> °</td>
     </tr>
     <tr>
-      <td>Temperatur im Rücklauf (enstpricht der Beckentemperatur wenn Pumpe läuft)</td><td align="right"><%= @temperatur.Ruecklauf %> °</td>
+      <td>Temperatur im Rücklauf (enstpricht der Beckentemperatur wenn Pumpe läuft)</td><td align="right"><%= @temperatur.Ruecklauf.round(1) %> °</td>
     </tr>
     <tr>
       <td>Pumpenbetrieb</td><td><%= @temperatur.Pumpenstatus == 0 ? 'AUS' : 'AN' %></td>
