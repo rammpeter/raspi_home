@@ -4,8 +4,14 @@ one:
   Zeit: 2015-09-11 15:41:22
   Vorlauf: 1
   Ruecklauf: 1
+  Sonne: 10
+  Schatten: 5
+  Pumpenstatus: 0
 
 two:
   Zeit: 2015-09-11 15:41:22
   Vorlauf: 1
   Ruecklauf: 1
+  Sonne: 15
+  Schatten: 8
+  Pumpenstatus: 1

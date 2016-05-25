@@ -5,7 +5,11 @@ class KonfigurationControllerTest < ActionController::TestCase
   # Anmelden mit user/pw
   def authenticate
     konf = Konfiguration.get_aktuelle_konfiguration
-    @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(konf.UserName, konf.Passwort)
+    session[:username] = konf.UserName
+    session[:password] = konf.Passwort
+
+      # Variante für http-Authorisierung
+    # @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(konf.UserName, konf.Passwort)
   end
 
 
