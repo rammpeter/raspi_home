@@ -91,6 +91,9 @@ class Temperatur < ActiveRecord::Base
     wegen_temperatur_aktiv = t.Ruecklauf < t.Sonne &&                                                 # muss immer erfüllt sein
         (min_pumpe_aktiv_zyklus < konf.Min_Aktiv_Minuten_Vor_Vergleich || t.Vorlauf > t.Ruecklauf )   # Wenn Pumpe bereits x Minuten lief, dann muss Vorlauf wärmer sein als Rücklauf
 
+    # Test auf Überschreitung der Maximaltemperatur
+    wegen_temperatur_aktiv = false if min_pumpe_aktiv_zyklus > konf.Min_Aktiv_Minuten_Vor_Vergleich && t.Ruecklauf > konf.max_pool_temperatur
+
     wegen_zirkulationszeit_aktiv = fehlende_stunden_heute > 0 &&                                           # Es fehlt noch Zirkulationszeit
         Time.now.change(:hour=>konf.Max_Stunde_Aktiv) - Time.now < (fehlende_stunden_heute * 3600)  # Zirkulationsszeit nicht mehr zu schaffen bis max. Stunde?
 

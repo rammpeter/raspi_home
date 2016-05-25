@@ -46,6 +46,10 @@ class Konfiguration < ActiveRecord::Base
             :initial_value  => 0,
             :title          => 'Betriebsmodus der Pumpensteuerung (0=automatisch, 1=ständig an, 2=ständig aus)'
         },
+        :max_pool_temperatur => {
+            :initial_value  => 30,
+            :title          => 'Maximale Beckentemperatur bis zu der Temperatur-Steuerung über aktiv bleibt. Bei Überschreitung wird Pumpe nicht mehr aktiviert, wenn Temperatur des Vorlauf > Rücklauf'
+        },
     }
   end
 
