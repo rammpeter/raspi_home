@@ -21,7 +21,7 @@ LOG=log/schreibe_temperatur.log
 #export SCHALTER_TYP=Rutenbeck_TPIP1
 #export SCHALTER_IP=192.168.178.48
 
-bin/rails runner -e production "Temperatur.schreibe_temperatur" 2>>$LOG >>$LOG
+bin/rails runner -e production "Temperatur.schreibe_temperatur" | grep -v 'Running via Spring preloader in process' 2>>$LOG >>$LOG
 RC=$?
 
 if [ $RC -ne 0 ]; then
