@@ -66,7 +66,7 @@ class SchalterTyp
   def set_schalter_status(status)
     case name
       when 'Rutenbeck_TPIP1' then
-        current = get_schalter_status(@ip_adresse)
+        current = get_schalter_status
         if current != status                                      # Kommando fungiert nur als Umschalter des aktuellen Status
           Net::HTTP.get(URI("http://#{@ip_adresse}/leds.cgi?led=1"))
         end
