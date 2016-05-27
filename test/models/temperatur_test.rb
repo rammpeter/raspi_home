@@ -9,16 +9,13 @@ class TemperaturTest < ActiveSupport::TestCase
     konf.filename_schatten_sensor   = Rails.root.join('test', 'fixtures', 'schatten.sensor_file').to_s
     konf.save
 
-    ENV['SCHALTER_TYP']       = 'Rutenbeck_TPIP1'
-    ENV['SCHALTER_IP']        = '127.0.0.0'
-
-    Temperatur.stubs(:get_schalter_status).returns(0)
-    Temperatur.stubs(:set_schalter_status)
+    #Temperatur.stubs(:get_schalter_status).returns(0)
+    #Temperatur.stubs(:set_schalter_status)
   end
 
   teardown do
-    Temperatur.unstub(:get_schalter_status)
-    Temperatur.unstub(:set_schalter_status)
+    #Temperatur.unstub(:get_schalter_status)
+    #Temperatur.unstub(:set_schalter_status)
 
   end
 

@@ -12,7 +12,7 @@ class Temperatur < ActiveRecord::Base
   end
 
   # Ermitteln des Schalt-Status der schaltbaren Steckdose, return 0 für aus oder 1 für ein
-  def self.get_schalter_status
+  def self.old_get_schalter_status
     return 0 if ENV['SCHALTER_TYP'] == 'NONE'                                   # Für Betrieb ohne Schaltsteckdose
 
     raise "Environment-Variable SCHALTER_TYP ist nicht gesetzt, Abbruch" if ENV['SCHALTER_TYP'].nil?
@@ -28,7 +28,7 @@ class Temperatur < ActiveRecord::Base
   end
 
   # Ein/Ausschalten der schaltbaren Steckdose 0/1
-  def self.set_schalter_status(status)
+  def self.old_set_schalter_status(status)
     return if ENV['SCHALTER_TYP'] == 'NONE'                                   # Für Betrieb ohne Schaltsteckdose
 
     raise "Environment-Variable SCHALTER_TYP ist nicht gesetzt, Abbruch" if ENV['SCHALTER_TYP'].nil?
@@ -57,7 +57,8 @@ class Temperatur < ActiveRecord::Base
     #   Dauer Pumpenaktivität am aktuellen Tag
     #   Zeitpunkt der letzte Pumpenaktivität
 
-    konf = Konfiguration.get_aktuelle_konfiguration
+    konf          = Konfiguration.get_aktuelle_konfiguration
+    schalter_typ  = SchalterTyp.new(konf.schalter_typ)
 
     t = Temperatur.new(
         :Vorlauf      => read_temperature_from_file(konf.filename_vorlauf_sensor),
@@ -108,15 +109,15 @@ class Temperatur < ActiveRecord::Base
 
     # Bedingungen für Anschalten der Pumpe
     if (wegen_temperatur_aktiv || wegen_zirkulationszeit_aktiv || wegen_zyklischer_reinigung_aktiv || konf.modus == 1 ) && konf.modus != 2
-      set_schalter_status(1)    # Anschalten der Pumpe
+      schalter_typ.set_schalter_status(1, konf.schalter_ip)    # Anschalten der Pumpe
     else
-      set_schalter_status(0)    # Ausschalten der Pumpe
+      schalter_typ.set_schalter_status(0, konf.schalter_ip)    # Ausschalten der Pumpe
     end
 
     t.wegen_temperatur_aktiv            = wegen_temperatur_aktiv            ? 1 : 0
     t.wegen_zirkulationszeit_aktiv      = wegen_zirkulationszeit_aktiv      ? 1 : 0
     t.wegen_zyklischer_reinigung_aktiv  = wegen_zyklischer_reinigung_aktiv  ? 1 : 0
-    t.Pumpenstatus                      = get_schalter_status      # 0/1
+    t.Pumpenstatus                      = schalter_typ.get_schalter_status(konf.schalter_ip)      # 0/1
 
     t.save
   end

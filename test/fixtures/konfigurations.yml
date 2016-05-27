@@ -13,7 +13,7 @@ one:
   Passwort: hauptstrasse18
   modus: 0
   max_pool_temperatur: 30
-  schalter_typ: Rutenbeck_TPIP1
+  schalter_typ: Dummy ohne Funktion
   schalter_ip: 0.0.0.0
   filename_vorlauf_sensor: /sys/bus/w1/devices/xxxxxx/w1_slave
   filename_ruecklauf_sensor: /sys/bus/w1/devices/xxxxxx/w1_slave
