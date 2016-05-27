@@ -1,16 +1,15 @@
 <div class="page">
   <div style="float: left">
-    <h3>Aktuelle Konfiguration</h3>
 
     <%
       def hist(column)
         link_to('Historie', {:action => :show_historie, :column => column}, {:title => 'Anzeige der Änderungshistorie dieses Feldes'}  )
       end
 
-      def column_record(column, align = 'right')
+      def column_record(column, align = 'right', size = 20)
         "<tr>
            <td>#{Konfiguration.get_title(column)}</td>
-           <td style='text-align: right;'>#{text_field(:konfiguration, column, :style=>"text-align:#{align};")}</td>
+           <td style='text-align: right;'>#{text_field(:konfiguration, column, :size=>size, :style=>"text-align:#{align};")}</td>
            <td>#{hist(column)}</td>
          </tr>
         ".html_safe
@@ -19,6 +18,19 @@
     %>
 
     <%= form_tag(url_for(:action=>:save_konfiguration)) do %>
+        <h3>
+        <div style="float:left">
+          Aktuelle Konfiguration
+        </div>
+        <div style="float:left; padding-left: 20px;">
+          <%= submit_tag('Speichern', :title=>'Speicher als ab jetzt aktive Konfiguration') %>
+        </div>
+        <div style="clear:both"></div>
+        </h3>
+
+
+
+
         <fieldset>
           <legend>Steuerung über Temperatur-Werte</legend>
           <table border="1" width="100%">
@@ -85,7 +97,34 @@
 
         <br>
 
-        <%= submit_tag('Speichern') %>
+        <fieldset>
+          <legend>Konfiguration der Schalt-Steckdose</legend>
+          <table border="1" width="100%">
+            <tr>
+              <td><%= Konfiguration.get_title(:schalter_typ).html_safe %></td>
+              <td style='text-align: right;'><%= text_field(:konfiguration, :schalter_typ) %></td>
+              <td><%= hist(:schalter_typ) %></td>
+            </tr>
+
+            <%= column_record(:schalter_ip,   'left') %>
+          </table>
+        </fieldset>
+
+        <br>
+
+        <fieldset>
+          <legend>Konfiguration der Tempratur-Sensoren</legend>
+          <table border="1" width="100%">
+            <%= column_record(:filename_vorlauf_sensor,   'left', 40) %>
+            <%= column_record(:filename_ruecklauf_sensor, 'left', 40) %>
+            <%= column_record(:filename_sonne_sensor,     'left', 40) %>
+            <%= column_record(:filename_schatten_sensor,  'left', 40) %>
+          </table>
+        </fieldset>
+
+        <br>
+
+        <%= submit_tag('Speichern', :title=>'Speicher als ab jetzt aktive Konfiguration') %>
     <% end %>
 
 

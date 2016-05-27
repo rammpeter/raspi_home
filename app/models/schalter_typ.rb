@@ -1,0 +1,3 @@
+class SchalterTyp
+
+end

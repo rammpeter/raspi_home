@@ -50,6 +50,30 @@ class Konfiguration < ActiveRecord::Base
             :initial_value  => 30,
             :title          => 'Maximale Beckentemperatur bis zu der Temperatur-Steuerung über aktiv bleibt. Bei Überschreitung wird Pumpe nicht mehr aktiviert, wenn Temperatur des Vorlauf > Rücklauf'
         },
+        :schalter_typ => {
+            :initial_value  => 'Rutenbeck_TPIP1',
+            :title          => 'Typ der verwendeten Schalter-Steckdose'
+        },
+        :schalter_ip => {
+            :initial_value  => '0.0.0.0',
+            :title          => 'IP-Adresse der verwendeten Schalter-Steckdose im Netzwerk'
+        },
+        :filename_vorlauf_sensor => {
+            :initial_value  => '/sys/bus/w1/devices/xxxxxx/w1_slave',
+            :title          => 'Name der Sensor-Datei des DS18B20-Sensors für Vorlauf-Temperatur (von Solar-Anlage zum Pool) im Kernel-Filesystem des Raspi'
+        },
+        :filename_ruecklauf_sensor => {
+            :initial_value  => '/sys/bus/w1/devices/xxxxxx/w1_slave',
+            :title          => 'Name der Sensor-Datei des DS18B20-Sensors für Rücklauf-Temperatur (von Pool zu Solar-Anlage) im Kernel-Filesystem des Raspi'
+        },
+        :filename_sonne_sensor => {
+            :initial_value  => '/sys/bus/w1/devices/xxxxxx/w1_slave',
+            :title          => 'Name der Sensor-Datei des DS18B20-Sensors für Temperatur in der Sonne (bzw. auf der Solar-Anlage) im Kernel-Filesystem des Raspi'
+        },
+        :filename_schatten_sensor => {
+            :initial_value  => '/sys/bus/w1/devices/xxxxxx/w1_slave',
+            :title          => 'Name der Sensor-Datei des DS18B20-Sensors für Temperatur im Schatten im Kernel-Filesystem des Raspi'
+        },
     }
   end
 
