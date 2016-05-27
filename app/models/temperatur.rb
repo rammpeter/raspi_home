@@ -78,7 +78,8 @@ class Temperatur < ActiveRecord::Base
 
     last_record = Temperatur.last
 
-    min_pumpe_aktiv_zyklus = Temperatur.where(['ID > ?-?', last_record.id, konf.Min_Aktiv_Minuten_Vor_Vergleich]).sum(:Pumpenstatus)    # Anzahl der letzten minütlichen Messungen mit Pumpe aktiv
+    # Anzahl der letzten minütlichen Messungen mit Pumpe aktiv, max. Wert ist konf.Min_Aktiv_Minuten_Vor_Vergleich, daher immer mit >= vergleichen
+    min_pumpe_aktiv_zyklus = Temperatur.where(['ID > ?-?', last_record.id, konf.Min_Aktiv_Minuten_Vor_Vergleich]).sum(:Pumpenstatus)
 
     # Anzahl der Minuten bereits aktiv wegen zyklischer Reinigung
     minuten_pumpe_aktiv_wegen_reinigung = 0
@@ -93,7 +94,7 @@ class Temperatur < ActiveRecord::Base
         (min_pumpe_aktiv_zyklus < konf.Min_Aktiv_Minuten_Vor_Vergleich || t.Vorlauf > t.Ruecklauf )   # Wenn Pumpe bereits x Minuten lief, dann muss Vorlauf wärmer sein als Rücklauf
 
     # Test auf Überschreitung der Maximaltemperatur
-    wegen_temperatur_aktiv = false if min_pumpe_aktiv_zyklus > konf.Min_Aktiv_Minuten_Vor_Vergleich && t.Ruecklauf > konf.max_pool_temperatur
+    wegen_temperatur_aktiv = false if min_pumpe_aktiv_zyklus >= konf.Min_Aktiv_Minuten_Vor_Vergleich && t.Ruecklauf > konf.max_pool_temperatur
 
     wegen_zirkulationszeit_aktiv = fehlende_stunden_heute > 0 &&                                           # Es fehlt noch Zirkulationszeit
         Time.now.change(:hour=>konf.Max_Stunde_Aktiv) - Time.now < (fehlende_stunden_heute * 3600)  # Zirkulationsszeit nicht mehr zu schaffen bis max. Stunde?
