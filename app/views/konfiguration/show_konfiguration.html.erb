@@ -103,12 +103,12 @@
             <tr>
               <td><%= Konfiguration.get_title(:schalter_typ).html_safe %></td>
               <td style='text-align: right;'>
-                <%= select :konfiguration, :schalter_typ, SchalterTyp.get_typen.collect {|p| [ p.name, p.name ] }  %>
+                <%= select :konfiguration, :schalter_typ, SchalterTyp.get_namen.collect {|name| [ name, name ] }  %>
               </td>
               <td><%= hist(:schalter_typ) %></td>
             </tr>
-
-            <%= column_record(:schalter_ip,   'left') %>
+            <%= column_record(:schalter_ip,       'left') %>
+            <%= column_record(:schalter_passwort, 'left') %>
           </table>
         </fieldset>
 

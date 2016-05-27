@@ -11,41 +11,6 @@ class Temperatur < ActiveRecord::Base
     line.slice(line.index('t=')+2, 10).to_f/1000   # Temoeratur in Grad
   end
 
-  # Ermitteln des Schalt-Status der schaltbaren Steckdose, return 0 für aus oder 1 für ein
-  def self.old_get_schalter_status
-    return 0 if ENV['SCHALTER_TYP'] == 'NONE'                                   # Für Betrieb ohne Schaltsteckdose
-
-    raise "Environment-Variable SCHALTER_TYP ist nicht gesetzt, Abbruch" if ENV['SCHALTER_TYP'].nil?
-
-    if ENV['SCHALTER_TYP'] ==  'Rutenbeck_TPIP1'
-      raise "Environment-Variable SCHALTER_IP ist nicht gesetzt, Abbruch" if ENV['SCHALTER_IP'].nil?
-      result = Net::HTTP.get_response(URI("http://#{ENV['SCHALTER_IP']}/status.xml"))
-      xml_result = Nokogiri::XML(result.body)
-      return xml_result.xpath('//led1').children[0].to_s.to_i
-    else
-      raise "SCHALTER_TYP=#{ENV['SCHALTER_TYP']} ist nicht bekannt, Abbruch"
-    end
-  end
-
-  # Ein/Ausschalten der schaltbaren Steckdose 0/1
-  def self.old_set_schalter_status(status)
-    return if ENV['SCHALTER_TYP'] == 'NONE'                                   # Für Betrieb ohne Schaltsteckdose
-
-    raise "Environment-Variable SCHALTER_TYP ist nicht gesetzt, Abbruch" if ENV['SCHALTER_TYP'].nil?
-
-    if ENV['SCHALTER_TYP'] ==  'Rutenbeck_TPIP1'
-      raise "Environment-Variable SCHALTER_IP ist nicht gesetzt, Abbruch" if ENV['SCHALTER_IP'].nil?
-
-      current = get_schalter_status
-      if current != status                                      # Kommando fungiert nur als Umschalter des aktuellen Status
-        Net::HTTP.get(URI("http://#{ENV['SCHALTER_IP']}/leds.cgi?led=1"))
-      end
-
-    else
-      raise "SCHALTER_TYP=#{ENV['SCHALTER_TYP']} ist nicht bekannt, Abbruch"
-    end
-
-  end
 
   # Ermitteln Soll-Schaltstatus der Pumpe
   # Wie soll Pumpe arbeiten in Abhängigkeit der Werte und Vorgeschichte?
@@ -58,7 +23,7 @@ class Temperatur < ActiveRecord::Base
     #   Zeitpunkt der letzte Pumpenaktivität
 
     konf          = Konfiguration.get_aktuelle_konfiguration
-    schalter_typ  = SchalterTyp.new(konf.schalter_typ)
+    schalter_typ  = SchalterTyp.new(konf.schalter_typ, konf.schalter_ip, konf.schalter_passwort)
 
     t = Temperatur.new(
         :Vorlauf      => read_temperature_from_file(konf.filename_vorlauf_sensor),
@@ -94,6 +59,7 @@ class Temperatur < ActiveRecord::Base
         (min_pumpe_aktiv_zyklus < konf.Min_Aktiv_Minuten_Vor_Vergleich || t.Vorlauf > t.Ruecklauf )   # Wenn Pumpe bereits x Minuten lief, dann muss Vorlauf wärmer sein als Rücklauf
 
     # Test auf Überschreitung der Maximaltemperatur
+    # TODO: Umstellen auf komplexere Regel
     wegen_temperatur_aktiv = false if min_pumpe_aktiv_zyklus >= konf.Min_Aktiv_Minuten_Vor_Vergleich && t.Ruecklauf > konf.max_pool_temperatur
 
     wegen_zirkulationszeit_aktiv = fehlende_stunden_heute > 0 &&                                           # Es fehlt noch Zirkulationszeit
@@ -110,15 +76,15 @@ class Temperatur < ActiveRecord::Base
 
     # Bedingungen für Anschalten der Pumpe
     if (wegen_temperatur_aktiv || wegen_zirkulationszeit_aktiv || wegen_zyklischer_reinigung_aktiv || konf.modus == 1 ) && konf.modus != 2
-      schalter_typ.set_schalter_status(1, konf.schalter_ip)    # Anschalten der Pumpe
+      schalter_typ.set_schalter_status(1)    # Anschalten der Pumpe
     else
-      schalter_typ.set_schalter_status(0, konf.schalter_ip)    # Ausschalten der Pumpe
+      schalter_typ.set_schalter_status(0)    # Ausschalten der Pumpe
     end
 
     t.wegen_temperatur_aktiv            = wegen_temperatur_aktiv            ? 1 : 0
     t.wegen_zirkulationszeit_aktiv      = wegen_zirkulationszeit_aktiv      ? 1 : 0
     t.wegen_zyklischer_reinigung_aktiv  = wegen_zyklischer_reinigung_aktiv  ? 1 : 0
-    t.Pumpenstatus                      = schalter_typ.get_schalter_status(konf.schalter_ip)      # 0/1
+    t.Pumpenstatus                      = schalter_typ.get_schalter_status      # 0/1
 
     t.save
   end

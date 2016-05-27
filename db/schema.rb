@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160527000000) do
+ActiveRecord::Schema.define(version: 20160527190000) do
 
   create_table "konfigurations", force: :cascade do |t|
     t.string   "UserName"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20160527000000) do
     t.string   "filename_ruecklauf_sensor",         default: "/sys/bus/w1/devices/28-04146f57bdff/w1_slave"
     t.string   "filename_sonne_sensor",             default: "/sys/bus/w1/devices/28-021503c262ff/w1_slave"
     t.string   "filename_schatten_sensor",          default: "/sys/bus/w1/devices/28-021503c981ff/w1_slave"
+    t.string   "schalter_passwort"
   end
 
   add_index "konfigurations", ["created_at"], name: "index_konfigurations_on_created_at"
