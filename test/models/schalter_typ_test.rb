@@ -5,9 +5,9 @@ class SchalterTypTest < ActiveSupport::TestCase
   end
 
   test "all" do
-    SchalterTyp.new('Dummy ohne Funktion').get_schalter_status('0.0.0.0')
-    SchalterTyp.new('Dummy ohne Funktion').set_schalter_status(0, '0.0.0.0')
-    SchalterTyp.new('Dummy ohne Funktion').set_schalter_status(1, '0.0.0.0')
+    SchalterTyp.new('Dummy ohne Funktion', '0.0.0.0').get_schalter_status
+    SchalterTyp.new('Dummy ohne Funktion', '0.0.0.0').set_schalter_status(0)
+    SchalterTyp.new('Dummy ohne Funktion', '0.0.0.0').set_schalter_status(1)
   end
 
 

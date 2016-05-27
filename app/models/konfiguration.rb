@@ -58,6 +58,10 @@ class Konfiguration < ActiveRecord::Base
             :initial_value  => '0.0.0.0',
             :title          => 'IP-Adresse der verwendeten Schalter-Steckdose im Netzwerk'
         },
+        :schalter_passwort => {
+            :initial_value  => '****',
+            :title          => 'Passwort für Zugriff auf Schalter-Steckdose (wenn erforderlich)'
+        },
         :filename_vorlauf_sensor => {
             :initial_value  => '/sys/bus/w1/devices/xxxxxx/w1_slave',
             :title          => 'Name der Sensor-Datei des DS18B20-Sensors für Vorlauf-Temperatur (von Solar-Anlage zum Pool) im Kernel-Filesystem des Raspi'
