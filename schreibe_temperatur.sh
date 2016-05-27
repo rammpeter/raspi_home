@@ -9,20 +9,13 @@ DIR=`dirname $0`
 cd $DIR
 
 LOG=log/schreibe_temperatur.log
+T_LOG=log/schreibe_temperatur_temp.log
 
-# Einstellungen fuer Temperaturfuehler Garage Ramm
-# Sensor für Vorlauf misst 0,06 Grad mehr (Serienstreuung)
-#export FILENAME_VORLAUF=/sys/bus/w1/devices/28-04146f57a7ff/w1_slave
-#export FILENAME_RUECKLAUF=/sys/bus/w1/devices/28-04146f57bdff/w1_slave
-#export FILENAME_SCHATTEN=/sys/bus/w1/devices/28-021503c981ff/w1_slave
-#export FILENAME_SONNE=/sys/bus/w1/devices/28-021503c262ff/w1_slave
-
-# Einstellungen für per LAN schaltbare Steckdose
-#export SCHALTER_TYP=Rutenbeck_TPIP1
-#export SCHALTER_IP=192.168.178.48
-
-bin/rails runner -e production "Temperatur.schreibe_temperatur" | grep -v 'Running via Spring preloader in process' 2>>$LOG >>$LOG
+bin/rails runner -e production "Temperatur.schreibe_temperatur" 2>>$T_LOG >>$T_LOG
 RC=$?
+
+cat $T_LOG |  grep -v 'Running via Spring preloader in process' >> $LOG
+rm $T_LOG
 
 if [ $RC -ne 0 ]; then
   echo `date`  >> $LOG
