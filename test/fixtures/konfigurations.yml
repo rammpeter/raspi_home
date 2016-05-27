@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  Min_Aktiv_Minuten_Vor_Vergleich: 5
+  Tage_Rueckwaerts_Mindestens_Aktiv: 4
+  Min_Aktiv_Stunden_je_Tag: 4
+  Max_Stunde_Aktiv: 17
+  Max_Inaktiv_Minuten_Tagsueber: 60
+  Inaktiv_Betrachtung_Start: 6
+  Inaktiv_Betrachtung_Ende: 17
+  Min_Aktiv_Fuer_Reinigung: 2
+  UserName: admin
+  Passwort: hauptstrasse18
+  modus: 0
+  max_pool_temperatur: 30
+  schalter_typ: Rutenbeck_TPIP1
+  schalter_ip: 0.0.0.0
+  filename_vorlauf_sensor: /sys/bus/w1/devices/xxxxxx/w1_slave
+  filename_ruecklauf_sensor: /sys/bus/w1/devices/xxxxxx/w1_slave
+  filename_sonne_sensor: /sys/bus/w1/devices/xxxxxx/w1_slave
+  filename_schatten_sensor: /sys/bus/w1/devices/xxxxxx/w1_slave

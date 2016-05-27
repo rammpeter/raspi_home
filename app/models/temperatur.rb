@@ -3,11 +3,10 @@ require 'net/http'
 class Temperatur < ActiveRecord::Base
 
   # gibt die im File hinterlegte Temperatur zurück
-  def self.read_temperature_from_file(env_name)
-    raise "#{env_name} muss mit Pfad und Name der w1_slave-Datei belegt sein für den Sensor"     unless ENV[env_name]
+  def self.read_temperature_from_file(sensor_file_name)
 
-    lines = IO.readlines(ENV[env_name])
-    raise "2 Zeilen werden erwartet in File #{ENV[env_name]} statt #{lines.count}" if lines.count != 2
+    lines = IO.readlines(sensor_file_name)
+    raise "2 Zeilen werden erwartet in File #{sensor_file_name} statt #{lines.count}" if lines.count != 2
     line = lines[1]
     line.slice(line.index('t=')+2, 10).to_f/1000   # Temoeratur in Grad
   end
@@ -58,14 +57,15 @@ class Temperatur < ActiveRecord::Base
     #   Dauer Pumpenaktivität am aktuellen Tag
     #   Zeitpunkt der letzte Pumpenaktivität
 
+    konf = Konfiguration.get_aktuelle_konfiguration
+
     t = Temperatur.new(
-        :Vorlauf      => read_temperature_from_file('FILENAME_VORLAUF'),
-        :Ruecklauf    => read_temperature_from_file('FILENAME_RUECKLAUF'),
-        :Schatten     => read_temperature_from_file('FILENAME_SCHATTEN'),
-        :Sonne        => read_temperature_from_file('FILENAME_SONNE')
+        :Vorlauf      => read_temperature_from_file(konf.filename_vorlauf_sensor),
+        :Ruecklauf    => read_temperature_from_file(konf.filename_ruecklauf_sensor),
+        :Schatten     => read_temperature_from_file(konf.filename_schatten_sensor),
+        :Sonne        => read_temperature_from_file(konf.filename_sonne_sensor)
     )
 
-    konf = Konfiguration.get_aktuelle_konfiguration
 
     # Ausgangswerte für Entscheidung:
     start_betrachtung = Time.now.change(:hour=>0) - konf.Tage_Rueckwaerts_Mindestens_Aktiv*24*60*60

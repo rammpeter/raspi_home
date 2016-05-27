@@ -2,10 +2,12 @@ require 'test_helper'
 
 class TemperaturTest < ActiveSupport::TestCase
   setup do
-    ENV['FILENAME_VORLAUF']   = Rails.root.join('test', 'fixtures', 'vorlauf.sensor_file').to_s
-    ENV['FILENAME_RUECKLAUF'] = Rails.root.join('test', 'fixtures', 'ruecklauf.sensor_file').to_s
-    ENV['FILENAME_SCHATTEN']  = Rails.root.join('test', 'fixtures', 'schatten.sensor_file').to_s
-    ENV['FILENAME_SONNE']     = Rails.root.join('test', 'fixtures', 'sonne.sensor_file').to_s
+    konf = Konfiguration.first
+    konf.filename_vorlauf_sensor    = Rails.root.join('test', 'fixtures', 'vorlauf.sensor_file').to_s
+    konf.filename_ruecklauf_sensor  = Rails.root.join('test', 'fixtures', 'ruecklauf.sensor_file').to_s
+    konf.filename_sonne_sensor      = Rails.root.join('test', 'fixtures', 'sonne.sensor_file').to_s
+    konf.filename_schatten_sensor   = Rails.root.join('test', 'fixtures', 'schatten.sensor_file').to_s
+    konf.save
 
     ENV['SCHALTER_TYP']       = 'Rutenbeck_TPIP1'
     ENV['SCHALTER_IP']        = '127.0.0.0'

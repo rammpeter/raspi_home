@@ -102,7 +102,9 @@
           <table border="1" width="100%">
             <tr>
               <td><%= Konfiguration.get_title(:schalter_typ).html_safe %></td>
-              <td style='text-align: right;'><%= text_field(:konfiguration, :schalter_typ) %></td>
+              <td style='text-align: right;'>
+                <%= select :konfiguration, :schalter_typ, SchalterTyp.get_typen.collect {|p| [ p.name, p.name ] }  %>
+              </td>
               <td><%= hist(:schalter_typ) %></td>
             </tr>
 
