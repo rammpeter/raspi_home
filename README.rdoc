@@ -1,4 +1,12 @@
-== README
+== Pool: Steuerung der Umwälzpumpe für Solaranlage mit Raspberry-Pi
+
+=== Schritte zur Inbetriebnahme der Steuerung
+
+==== Einrichtung des Raspberry Pi
+* Download des Raspbian OS von https://www.raspberrypi.org/downloads/raspbian/ und Kopie auf Micro-SD-Karte
+
+
+
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
