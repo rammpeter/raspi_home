@@ -15,3 +15,11 @@ Folgende Prämissen sollen erfüllt werden:
 
 3. Auch wenn kein Betrieb nach Punkt 1 aktiviert ist, soll zyklisch die Pumpe kurz eingeschalten werden, um Oberflächenschmutz in den Skimmer zu befördern
 
+Da für die Steuerung je Minute Werte für dioe Außentemperatur in der Sonne und im Schatten aufgenommen werden,
+fällt nebenbei noch die Funktion einer Wtterstattion mit langfristiger Protokollierung der Temperaturen mit ab.
+
+<b>Denkbare Erweiterungen</b>
+- Messung Clor-Gehalt / ph-Wert und Benachrichtigung bei notwendigem Eingreifen
+- Steuerung Gewächshaus
+- Frostwarnung / Warnung bei Unter/Überschreiten von Temperaturgrenzen
+
