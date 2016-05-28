@@ -19,7 +19,7 @@ Da für die Steuerung je Minute Werte für dioe Außentemperatur in der Sonne un
 fällt nebenbei noch die Funktion einer Wtterstattion mit langfristiger Protokollierung der Temperaturen mit ab.
 
 <b>Denkbare Erweiterungen</b>
-- Messung Clor-Gehalt / ph-Wert und Benachrichtigung bei notwendigem Eingreifen
+- Messung Chlor-Gehalt / ph-Wert und Benachrichtigung bei notwendigem Eingreifen
 - Steuerung Gewächshaus
 - Frostwarnung / Warnung bei Unter/Überschreiten von Temperaturgrenzen
 
