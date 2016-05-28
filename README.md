@@ -18,6 +18,8 @@ Folgende Prämissen sollen erfüllt werden:
 Da für die Steuerung je Minute Werte für dioe Außentemperatur in der Sonne und im Schatten aufgenommen werden,
 fällt nebenbei noch die Funktion einer Wtterstattion mit langfristiger Protokollierung der Temperaturen mit ab.
 
+![Alt text](app/assets/images/poolsteuerung.jpg?raw=true "Temperatur-Verlauf mit Schaltzeiten")
+
 <b>Denkbare Erweiterungen</b>
 - Messung Chlor-Gehalt / ph-Wert und Benachrichtigung bei notwendigem Eingreifen
 - Steuerung Gewächshaus
