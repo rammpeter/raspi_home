@@ -1,4 +1,4 @@
-== Swimming-Pool: Steuerung der Umwälzpumpe für Solaranlage mit Raspberry-Pi
+Swimming-Pool: Steuerung der Umwälzpumpe für Solaranlage mit Raspberry-Pi
 
 Ziel des Projektes ist die Steuerung einer Pool-Anlage mit Umwälzpumpe, Filter und Solarheizung so,
 dass die Sonnenenergie der Solaranlage optimal ausgenutzt wird zur Erwärmung des Pools.
