@@ -1,0 +1,47 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          ramm
+# Required-Start:    
+# Required-Stop:     
+# Should-Start:      
+# Default-Start:     2 3 4 5
+# Default-Stop:      
+# Short-Description: start Rails server 
+# Description:       start Rails server
+### END INIT INFO
+
+set -e
+
+# /etc/init.d/ramm: start and stop the Rails server
+
+. /lib/lsb/init-functions
+
+export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+
+case "$1" in
+  start)
+        su - pi -c "export RAILS_ENV=production; cd /home/pi/Documents/Projekte/rammpeter.github/raspi_home; rake assets:precompile; rails server -e production -b 0.0.0.0 &"
+	;;
+  stop)
+        killall -v -u pi ruby
+	log_warning_msg "not supported"
+	;;
+
+  reload|force-reload)
+	log_warning_msg "not supported"
+	;;
+
+  restart)
+	log_warning_msg "not supported"
+	;;
+
+  status)
+	log_warning_msg "not supported"
+	;;
+  *)
+	echo "Usage: /etc/init.d/ramm {start|stop|reload|force-reload|restart|status}"
+	exit 1
+esac
+
+exit 0
