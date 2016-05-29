@@ -21,7 +21,7 @@ export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 
 case "$1" in
   start)
-        su - pi -c "export RAILS_ENV=production; cd /home/pi/Documents/Projekte/rammpeter.github/raspi_home; rake assets:precompile; rails server -e production -b 0.0.0.0 &"
+        su - pi -c "/home/pi/Documents/Projekte/rammpeter.github/raspi_home/run_webserver.sh &"
 	;;
   stop)
         killall -v -u pi ruby

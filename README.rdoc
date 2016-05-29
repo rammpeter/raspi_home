@@ -39,7 +39,12 @@
     > sudo ln -s /etc/init.d/raspi_home /etc/rc3.d/S01raspi_home
     > sudo ln -s /etc/init.d/raspi_home /etc/rc4.d/S01raspi_home
     > sudo ln -s /etc/init.d/raspi_home /etc/rc5.d/S01raspi_home
+* Systemd neu initialisieren: > sudo systemctl daemon-reload
 * Ausführen des Install/Update-Jobs: > ./upgrade_system.sh
+* Anpassen der Crontab des Users pi: > crontab -e + Einfügen der beiden Zeilen
+* * * * *  /home/pi/Documents/Projekte/rammpeter.github/raspi_home/schreibe_temperatur.sh
+0 12 * * *  /home/pi/Documents/Projekte/rammpeter.github/raspi_home/housekeeping.sh
+
 
 
 
