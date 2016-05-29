@@ -17,6 +17,10 @@
 * Einrichten WLAN mit wicd-curses im Text-Modus per ssh, wenn kein GUI verfügbar
 * Einstellen WLAN-Standort Deutschland per: > sudo raspi-config, Internat. options, change WiFi country
 * Aktivieren 1wire: > sudo raspi-config, Advanced options, 1-Wire
+* Erweitern der .profile des Users pi um folgende zwei Zeilen
+    alias ll="ls -l"
+    alias cdrr="cd ~/Documents/Projekte/rammpeter.github/raspi_home"
+
 
 === Installieren der Ruby-Umgebung
 * Curl + Revision control systeme instaliieren: > sudo apt-get install -y git curl zlib1g-dev subversion
@@ -27,6 +31,11 @@
 * Ruby installieren lokal für pi: > rvm install ruby
 * Ruby als Default zur Verwendung markieren: rvm --default use ruby
 * Bundler gem installieren: > gem install bundler
+* Erweitern der .profile des Users pi um folgende zwei Zeilen
+    export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+
 
 ==== Einrichtung der Pool-Steuerung
 * Einrichten eines Verzeichnisses auf dem Raspberry Pi: > mkdir -p /home/pi/Documents/Projekte/rammpeter.github
@@ -42,37 +51,7 @@
 * Systemd neu initialisieren: > sudo systemctl daemon-reload
 * Ausführen des Install/Update-Jobs: > ./upgrade_system.sh
 * Anpassen der Crontab des Users pi: > crontab -e + Einfügen der beiden Zeilen
-* * * * *  /home/pi/Documents/Projekte/rammpeter.github/raspi_home/schreibe_temperatur.sh
-0 12 * * *  /home/pi/Documents/Projekte/rammpeter.github/raspi_home/housekeeping.sh
+    * * * * *  /home/pi/Documents/Projekte/rammpeter.github/raspi_home/schreibe_temperatur.sh
+    0 12 * * *  /home/pi/Documents/Projekte/rammpeter.github/raspi_home/housekeeping.sh
 
 
-
-
-
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
