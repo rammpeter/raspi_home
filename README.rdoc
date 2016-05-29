@@ -6,7 +6,7 @@
 * Micro-SD-Karte 16 GB
 * Micro-USB-Netzteil 2A
 * Widerstand 4,7 kOhm
-* 4 * Temperatursensor DS18B20
+* 4 * Temperatursensor DS18B20 wasserdicht mit Kabel
 * Pfostenstecker 40-polig mit Flachbandkabel
 * per IP-Netz (Ethernet oder WLAN) schaltbare Steckdose (aktuell unterstützt: Rutenbeck TPIP1, Edimax SP-1101W )
 
@@ -14,11 +14,28 @@
 
 ==== Einrichtung des Raspberry Pi
 * Download des Raspbian OS von https://www.raspberrypi.org/downloads/raspbian/ und Kopie auf Micro-SD-Karte
+* Einrichten WLAN mit wicd-curses im Text-Modus per ssh, wenn kein GUI verfügbar
+* Einstellen WLAN-Standort Deutschland per: > sudo raspi-config, Internat. options, change WiFi country
+* Aktivieren 1wire: > sudo raspi-config, Advanced options, 1-Wire
 
-* Einrichten eines Verzeichnisses auf dem Raspberry Pi: > mkdir /home/pi/Documents/Projekte/rammpeter.github
+=== Installieren der Ruby-Umgebung
+* Curl + Revision control systeme instaliieren: > sudo apt-get install -y git curl zlib1g-dev subversion
+* Schlüssel für rvm-Installation laden: sudo gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+* rvm instalieren: > curl -sSL https://get.rvm.io | bash -s -- --ignore-dotfiles
+* Wenn Fehlermeldung, dann angelistetes Kommando ausführen analog: > sudo gpg2 --keyserver hkp://keys.gnupg.net --recv-keys xxxxxxx und wiederholen: > curl -sSL https://get.rvm.io | sudo bash -s stable
+* Danach neu anmelden als pi
+* Ruby installieren lokal für pi: > rvm install ruby
+* Ruby als Default zur Verwendung markieren: rvm --default use ruby
+* Bundler gem installieren: > gem install bundler
+
+==== Einrichtung der Pool-Steuerung
+
+
+* Einrichten eines Verzeichnisses auf dem Raspberry Pi: > mkdir -p /home/pi/Documents/Projekte/rammpeter.github
 * Wechsel in das Verzeichnis: > cd /home/pi/Documents/Projekte/rammpeter.github
 * Klonen des Projektes von GitHub: > git clone https://github.com/rammpeter/raspi_home
-
+* Wechsel in Projekt-Verzeichnis: > cd raspi_home
+* Ausführen des Install/Update-Jobs: > ./upgrade_system.sh
 
 
 This README would normally document whatever steps are necessary to get the

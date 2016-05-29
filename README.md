@@ -13,7 +13,7 @@ Folgende Prämissen sollen erfüllt werden:
 
 2. Eine Mindestumwälzdauer über mehrere Tage sollte eingehalten werden, auch wenn wegen Witterung diese nicht durch Betrieb nach Punkt 1 sichergestellt werden kann.
 
-3. Auch wenn kein Betrieb nach Punkt 1 aktiviert ist, soll zyklisch die Pumpe kurz eingeschalten werden, um Oberflächenschmutz in den Skimmer zu befördern
+3. Auch wenn kein Betrieb nach Punkt 1 aktiviert ist, soll während üblicher Nutzungszeiten zyklisch die Pumpe kurz eingeschalten werden, um Oberflächenschmutz in den Skimmer zu befördern
 
 Da für die Steuerung je Minute Werte für dioe Außentemperatur in der Sonne und im Schatten aufgenommen werden,
 fällt nebenbei noch die Funktion einer Wtterstattion mit langfristiger Protokollierung der Temperaturen mit ab.

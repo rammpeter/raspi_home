@@ -3,11 +3,13 @@
 # Zur Aktualisierung des Systems ausführen im Applikations-Verzeichnis auf dem Raspi
 RC=0
 
+# Durch vprhergehendes bundle install geändertes File entfernen
+rm Gemfile.lock
+
 # Aktualisierung der Software
 git pull
 
 # Abhängigkeiten nachladen
-rm Gemfile.lock
 bundle install
 
 # Anpassung der Datenbank an aktuelle Software
