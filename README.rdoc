@@ -1,4 +1,25 @@
-== README
+== Pool: Steuerung der Umwälzpumpe für Solaranlage mit Raspberry-Pi
+
+=== Anforderungen für Steuerung der Umwälzpumpe / Stückliste
+* Raspberry Pi
+* Gehäuse für Raspberyy Pi
+* Micro-SD-Karte 16 GB
+* Micro-USB-Netzteil 2A
+* Widerstand 4,7 kOhm
+* 4 * Temperatursensor DS18B20
+* Pfostenstecker 40-polig mit Flachbandkabel
+* per IP-Netz (Ethernet oder WLAN) schaltbare Steckdose (aktuell unterstützt: Rutenbeck TPIP1, Edimax SP-1101W )
+
+=== Schritte zur Inbetriebnahme der Steuerung
+
+==== Einrichtung des Raspberry Pi
+* Download des Raspbian OS von https://www.raspberrypi.org/downloads/raspbian/ und Kopie auf Micro-SD-Karte
+
+* Einrichten eines Verzeichnisses auf dem Raspberry Pi: > mkdir /home/pi/Documents/Projekte/rammpeter.github
+* Wechsel in das Verzeichnis: > cd /home/pi/Documents/Projekte/rammpeter.github
+* Klonen des Projektes von GitHub: > git clone https://github.com/rammpeter/raspi_home
+
+
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
