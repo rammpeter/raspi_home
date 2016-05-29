@@ -29,13 +29,20 @@
 * Bundler gem installieren: > gem install bundler
 
 ==== Einrichtung der Pool-Steuerung
-
-
 * Einrichten eines Verzeichnisses auf dem Raspberry Pi: > mkdir -p /home/pi/Documents/Projekte/rammpeter.github
 * Wechsel in das Verzeichnis: > cd /home/pi/Documents/Projekte/rammpeter.github
 * Klonen des Projektes von GitHub: > git clone https://github.com/rammpeter/raspi_home
 * Wechsel in Projekt-Verzeichnis: > cd raspi_home
+* Init-Script kopieren und verlinken:
+    > sudo cp raspi_home.initscript /etc/init.d/raspi_home
+    > sudo ln -s /etc/init.d/raspi_home /etc/rc2.d/S01raspi_home
+    > sudo ln -s /etc/init.d/raspi_home /etc/rc3.d/S01raspi_home
+    > sudo ln -s /etc/init.d/raspi_home /etc/rc4.d/S01raspi_home
+    > sudo ln -s /etc/init.d/raspi_home /etc/rc5.d/S01raspi_home
 * Ausführen des Install/Update-Jobs: > ./upgrade_system.sh
+
+
+
 
 
 This README would normally document whatever steps are necessary to get the

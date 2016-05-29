@@ -17,7 +17,7 @@ export RAILS_ENV=production
 rake db:migrate
 
 # Neustart des Webservers
-sudo /etc/init.d/ramm stop
-sudo /etc/init.d/ramm start
+sudo /etc/init.d/raspi_home stop
+sudo /etc/init.d/raspi_home start
 
 exit $RC
