@@ -1,14 +1,13 @@
 == Pool: Steuerung der Umwälzpumpe für Solaranlage mit Raspberry-Pi
 
 === Anforderungen für Steuerung der Umwälzpumpe / Stückliste
-| Teil | Preis (Amazon 2016) |
-* Raspberry Pi
-* Gehäuse für Raspberyy Pi
-* Micro-SD-Karte 16 GB
-* Micro-USB-Netzteil 2A
-* Widerstand 4,7 kOhm
-* 4 * Temperatursensor DS18B20 wasserdicht mit Kabel
-* Pfostenstecker 40-polig mit Flachbandkabel
+* Raspberry Pi (37,92 €)
+* Gehäuse für Raspberyy Pi (6,29 €)
+* Micro-SD-Karte 16 GB  ( 6,68 €)
+* Micro-USB-Netzteil 2A (14,99 €)
+* Widerstand 4,7 kOhm ( Pfennige)
+* 4 * Temperatursensor DS18B20 wasserdicht mit Kabel  (5 Stück 16,99 €)
+* Pfostenstecker 40-polig mit Flachbandkabel ( 4,00 €)
 * per IP-Netz (Ethernet oder WLAN) schaltbare Steckdose (aktuell unterstützt: Rutenbeck TPIP1, Edimax SP-1101W )
 
 === Schritte zur Inbetriebnahme der Steuerung
@@ -54,5 +53,10 @@
 * Anpassen der Crontab des Users pi: > crontab -e + Einfügen der beiden Zeilen
     * * * * *  /home/pi/Documents/Projekte/rammpeter.github/raspi_home/schreibe_temperatur.sh
     0 12 * * *  /home/pi/Documents/Projekte/rammpeter.github/raspi_home/housekeeping.sh
+
+=== Anschliessen der Temperatur-Sensoren
+* Verkabelung an GPIO-Anschlüssen analog http://projects.privateeyepi.com/home/temperature-sensor-project-using-ds18b20
+* Sensoren sollten dann als Verzeichnis unter /sys/bus/w1/devices/ auftauchen
+* Temperatur steht in Datei w1_slave im Verzeichnis des Sensors
 
 

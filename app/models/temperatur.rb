@@ -43,48 +43,50 @@ class Temperatur < ActiveRecord::Base
 
     last_record = Temperatur.last
 
-    # Anzahl der letzten minütlichen Messungen mit Pumpe aktiv, max. Wert ist konf.Min_Aktiv_Minuten_Vor_Vergleich, daher immer mit >= vergleichen
-    min_pumpe_aktiv_zyklus = Temperatur.where(['ID > ?-?', last_record.id, konf.Min_Aktiv_Minuten_Vor_Vergleich]).sum(:Pumpenstatus)
+    if last_record                                                              # Überspringen bei erstem Erfassen eines Messwertes
+      # Anzahl der letzten minütlichen Messungen mit Pumpe aktiv, max. Wert ist konf.Min_Aktiv_Minuten_Vor_Vergleich, daher immer mit >= vergleichen
+      min_pumpe_aktiv_zyklus = Temperatur.where(['ID > ?-?', last_record.id, konf.Min_Aktiv_Minuten_Vor_Vergleich]).sum(:Pumpenstatus)
 
-    # Anzahl der Minuten bereits aktiv wegen zyklischer Reinigung
-    minuten_pumpe_aktiv_wegen_reinigung = 0
-    Temperatur.last(konf.Min_Aktiv_Fuer_Reinigung+1).sort{|x,y| y.id <=> x.id}.each do |r|
-      break if r.wegen_zyklischer_reinigung_aktiv != 1                          # Nur zusammenhängende wegen_zyklischer_reinigung_aktiv zählen
-      minuten_pumpe_aktiv_wegen_reinigung += 1                                  # Zählen der Minuten
+      # Anzahl der Minuten bereits aktiv wegen zyklischer Reinigung
+      minuten_pumpe_aktiv_wegen_reinigung = 0
+      Temperatur.last(konf.Min_Aktiv_Fuer_Reinigung+1).sort{|x,y| y.id <=> x.id}.each do |r|
+        break if r.wegen_zyklischer_reinigung_aktiv != 1                          # Nur zusammenhängende wegen_zyklischer_reinigung_aktiv zählen
+        minuten_pumpe_aktiv_wegen_reinigung += 1                                  # Zählen der Minuten
+      end
+
+
+      # Verschiedene Bedingungen für Aktiv-Schaltung der Pumpe
+      wegen_temperatur_aktiv = t.Ruecklauf < t.Sonne &&                                                 # muss immer erfüllt sein
+          (min_pumpe_aktiv_zyklus < konf.Min_Aktiv_Minuten_Vor_Vergleich || t.Vorlauf > t.Ruecklauf )   # Wenn Pumpe bereits x Minuten lief, dann muss Vorlauf wärmer sein als Rücklauf
+
+      # Test auf Überschreitung der Maximaltemperatur
+      # TODO: Umstellen auf komplexere Regel
+      wegen_temperatur_aktiv = false if min_pumpe_aktiv_zyklus >= konf.Min_Aktiv_Minuten_Vor_Vergleich && t.Ruecklauf > konf.max_pool_temperatur
+
+      wegen_zirkulationszeit_aktiv = fehlende_stunden_heute > 0 &&                                           # Es fehlt noch Zirkulationszeit
+          Time.now.change(:hour=>konf.Max_Stunde_Aktiv) - Time.now < (fehlende_stunden_heute * 3600)  # Zirkulationsszeit nicht mehr zu schaffen bis max. Stunde?
+
+      wegen_zyklischer_reinigung_aktiv = ( last_aktiv.nil? ||
+                                           last_aktiv < Time.now - (60*konf.Max_Inaktiv_Minuten_Tagsueber) ||
+                                           (minuten_pumpe_aktiv_wegen_reinigung > 0 && minuten_pumpe_aktiv_wegen_reinigung < konf.Min_Aktiv_Fuer_Reinigung )
+                                         ) &&
+          Time.now > Time.now.change(:hour=>konf.Inaktiv_Betrachtung_Start)  &&
+          Time.now < Time.now.change(:hour=>konf.Inaktiv_Betrachtung_Ende)
+
+      #puts "#{Time.now} Pumpe an wegen: Temperatur=#{wegen_temperatur_aktiv}, Zirkulationszeit=#{wegen_zirkulationszeit_aktiv}, Reinigung=#{wegen_zyklischer_reinigung_aktiv}"
+
+      # Bedingungen für Anschalten der Pumpe
+      if (wegen_temperatur_aktiv || wegen_zirkulationszeit_aktiv || wegen_zyklischer_reinigung_aktiv || konf.modus == 1 ) && konf.modus != 2
+        schalter_typ.set_schalter_status(1)    # Anschalten der Pumpe
+      else
+        schalter_typ.set_schalter_status(0)    # Ausschalten der Pumpe
+      end
+
+      t.wegen_temperatur_aktiv            = wegen_temperatur_aktiv            ? 1 : 0
+      t.wegen_zirkulationszeit_aktiv      = wegen_zirkulationszeit_aktiv      ? 1 : 0
+      t.wegen_zyklischer_reinigung_aktiv  = wegen_zyklischer_reinigung_aktiv  ? 1 : 0
+      t.Pumpenstatus                      = schalter_typ.get_schalter_status      # 0/1
     end
-
-
-    # Verschiedene Bedingungen für Aktiv-Schaltung der Pumpe
-    wegen_temperatur_aktiv = t.Ruecklauf < t.Sonne &&                                                 # muss immer erfüllt sein
-        (min_pumpe_aktiv_zyklus < konf.Min_Aktiv_Minuten_Vor_Vergleich || t.Vorlauf > t.Ruecklauf )   # Wenn Pumpe bereits x Minuten lief, dann muss Vorlauf wärmer sein als Rücklauf
-
-    # Test auf Überschreitung der Maximaltemperatur
-    # TODO: Umstellen auf komplexere Regel
-    wegen_temperatur_aktiv = false if min_pumpe_aktiv_zyklus >= konf.Min_Aktiv_Minuten_Vor_Vergleich && t.Ruecklauf > konf.max_pool_temperatur
-
-    wegen_zirkulationszeit_aktiv = fehlende_stunden_heute > 0 &&                                           # Es fehlt noch Zirkulationszeit
-        Time.now.change(:hour=>konf.Max_Stunde_Aktiv) - Time.now < (fehlende_stunden_heute * 3600)  # Zirkulationsszeit nicht mehr zu schaffen bis max. Stunde?
-
-    wegen_zyklischer_reinigung_aktiv = ( last_aktiv.nil? ||
-                                         last_aktiv < Time.now - (60*konf.Max_Inaktiv_Minuten_Tagsueber) ||
-                                         (minuten_pumpe_aktiv_wegen_reinigung > 0 && minuten_pumpe_aktiv_wegen_reinigung < konf.Min_Aktiv_Fuer_Reinigung )
-                                       ) &&
-        Time.now > Time.now.change(:hour=>konf.Inaktiv_Betrachtung_Start)  &&
-        Time.now < Time.now.change(:hour=>konf.Inaktiv_Betrachtung_Ende)
-
-    #puts "#{Time.now} Pumpe an wegen: Temperatur=#{wegen_temperatur_aktiv}, Zirkulationszeit=#{wegen_zirkulationszeit_aktiv}, Reinigung=#{wegen_zyklischer_reinigung_aktiv}"
-
-    # Bedingungen für Anschalten der Pumpe
-    if (wegen_temperatur_aktiv || wegen_zirkulationszeit_aktiv || wegen_zyklischer_reinigung_aktiv || konf.modus == 1 ) && konf.modus != 2
-      schalter_typ.set_schalter_status(1)    # Anschalten der Pumpe
-    else
-      schalter_typ.set_schalter_status(0)    # Ausschalten der Pumpe
-    end
-
-    t.wegen_temperatur_aktiv            = wegen_temperatur_aktiv            ? 1 : 0
-    t.wegen_zirkulationszeit_aktiv      = wegen_zirkulationszeit_aktiv      ? 1 : 0
-    t.wegen_zyklischer_reinigung_aktiv  = wegen_zyklischer_reinigung_aktiv  ? 1 : 0
-    t.Pumpenstatus                      = schalter_typ.get_schalter_status      # 0/1
 
     t.save
   end
