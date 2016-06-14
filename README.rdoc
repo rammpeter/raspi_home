@@ -1,6 +1,12 @@
 == Pool: Steuerung der Umwälzpumpe für Solaranlage mit Raspberry-Pi
 
 === Anforderungen für Steuerung der Umwälzpumpe / Stückliste
+<table>
+    <tr>
+        <th>Teil</th>
+        <th>Preis (Amazon 2016)</th>
+    </tr>
+</table>
 * Raspberry Pi
 * Gehäuse für Raspberyy Pi
 * Micro-SD-Karte 16 GB
