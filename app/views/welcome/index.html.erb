@@ -1,3 +1,21 @@
+<%
+  @max_temp = [@temperatur.Sonne, @temperatur.Schatten, @temperatur.Vorlauf, @temperatur.Ruecklauf].max
+
+  def show_pct_background(value)
+    pct_value = value * 100 / @max_temp
+
+    "<div style='background-image: -webkit-linear-gradient(left, gray 0%, lightgray #{pct_value}%, rgba(255, 255, 255, 0) #{pct_value}%, rgba(255, 255, 255, 0) 100%);
+                 background-image: -moz-linear-gradient(left, gray 0%, lightgray #{pct_value}%, rgba(255, 255, 255, 0) #{pct_value}%, rgba(255, 255, 255, 0) 100%);
+                 background-image: linear-gradient(left, gray 0%, lightgray #{pct_value}%, rgba(255, 255, 255, 0) #{pct_value}%, rgba(255, 255, 255, 0) 100%);
+                '>
+       #{value.round(1)} °
+     </div>".html_safe
+  end
+
+%>
+
+
+
 <div class="page">
   <% if @temperatur.nil? %>
       <h3>Willkommen bei Pool-Steuerung mit Raspberry Pi</h3>
@@ -6,28 +24,30 @@
     <h3>Aktueller Status von <%= @temperatur.created_at.strftime('%d.%m.%Y %H:%M:%S') %></h3>
     <table border="1">
       <tr>
-        <td>Temperatur in der Sonne</td><td align="right"><%= @temperatur.Sonne.round(1) %> °</td>
+        <td>Temperatur in der Sonne</td><td align="middle"><%= show_pct_background(@temperatur.Sonne) %></td>
       </tr>
       <tr>
-        <td>Temperatur im Schatten</td><td align="right"><%= @temperatur.Schatten.round(1) %> °</td>
+        <td>Temperatur im Schatten</td><td align="middle"><%= show_pct_background(@temperatur.Schatten) %></td>
       </tr>
       <tr>
-        <td>Temperatur im Vorlauf (nach Durchlaufen der Solaranlage)</td><td align="right"><%= @temperatur.Vorlauf.round(1) %> °</td>
+        <td>Temperatur im Vorlauf (nach Durchlaufen der Solaranlage)</td><td align="middle"><%= show_pct_background(@temperatur.Vorlauf) %></td>
       </tr>
       <tr>
-        <td>Temperatur im Rücklauf (enstpricht der Beckentemperatur wenn Pumpe läuft)</td><td align="right"><%= @temperatur.Ruecklauf.round(1) %> °</td>
+        <td>Temperatur im Rücklauf (enstpricht der Beckentemperatur wenn Pumpe läuft)</td><td align="middle"><%= show_pct_background(@temperatur.Ruecklauf) %></td>
       </tr>
       <tr>
-        <td>Pumpenbetrieb</td><td><%= @temperatur.Pumpenstatus == 0 ? 'AUS' : 'AN' %></td>
+        <td>Wirkung der Solaranlage (Temperaturdifferenz Vorlauf-Rücklauf)</td><td align="middle"><%= (@temperatur.Vorlauf - @temperatur.Ruecklauf).round(1) %> °</td>
       </tr>
       <tr>
-        <td>Pumpe an wegen</td><td><%= @temperatur.pumpe_an_grund %></td>
+        <td>Pumpenbetrieb</td><td align="middle"><%= @temperatur.Pumpenstatus == 0 ? 'AUS' : 'AN' %></td>
       </tr>
       <tr>
-        <td>Pumpensteuerung</td><td><%= @konfiguration.modus_text %></td>
+        <td>Pumpe an wegen</td><td align="middle"><%= @temperatur.pumpe_an_grund %></td>
+      </tr>
+      <tr>
+        <td>Pumpensteuerung</td><td align="middle"><%= @konfiguration.modus_text %></td>
       </tr>
 
     </table>
   <% end %>
 </div>
-
