@@ -56,8 +56,8 @@ class Temperatur < ActiveRecord::Base
 
 
       # Verschiedene Bedingungen für Aktiv-Schaltung der Pumpe
-      wegen_temperatur_aktiv = t.Sonne > t.Ruecklauf + t.min_sonne_ruecklauf_distanz  &&                                # muss immer erfüllt sein
-          (min_pumpe_aktiv_zyklus < konf.Min_Aktiv_Minuten_Vor_Vergleich || t.Vorlauf > t.Ruecklauf + t.min_vorlauf_ruecklauf_distanz )   # Wenn Pumpe bereits x Minuten lief, dann muss Vorlauf wärmer sein als Rücklauf
+      wegen_temperatur_aktiv = t.Sonne > t.Ruecklauf + konf.min_sonne_ruecklauf_distanz  &&                             # muss immer erfüllt sein
+          (min_pumpe_aktiv_zyklus < konf.Min_Aktiv_Minuten_Vor_Vergleich || t.Vorlauf > t.Ruecklauf + konf.min_vorlauf_ruecklauf_distanz )   # Wenn Pumpe bereits x Minuten lief, dann muss Vorlauf wärmer sein als Rücklauf
 
       # Test auf Überschreitung der Maximaltemperatur
       # TODO: Umstellen auf komplexere Regel
