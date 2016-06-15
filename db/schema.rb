@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160527190000) do
+ActiveRecord::Schema.define(version: 20160615000000) do
 
   create_table "konfigurations", force: :cascade do |t|
     t.string   "UserName"
@@ -24,17 +24,19 @@ ActiveRecord::Schema.define(version: 20160527190000) do
     t.integer  "Inaktiv_Betrachtung_Start"
     t.integer  "Inaktiv_Betrachtung_Ende"
     t.integer  "Min_Aktiv_Fuer_Reinigung"
-    t.datetime "created_at",                                                                                 null: false
-    t.datetime "updated_at",                                                                                 null: false
+    t.datetime "created_at",                                                                                                         null: false
+    t.datetime "updated_at",                                                                                                         null: false
     t.integer  "modus"
-    t.integer  "max_pool_temperatur",               default: 30
-    t.string   "schalter_typ",                      default: "Rutenbeck_TPIP1"
-    t.string   "schalter_ip",                       default: "192.168.178.48"
-    t.string   "filename_vorlauf_sensor",           default: "/sys/bus/w1/devices/28-04146f57a7ff/w1_slave"
-    t.string   "filename_ruecklauf_sensor",         default: "/sys/bus/w1/devices/28-04146f57bdff/w1_slave"
-    t.string   "filename_sonne_sensor",             default: "/sys/bus/w1/devices/28-021503c262ff/w1_slave"
-    t.string   "filename_schatten_sensor",          default: "/sys/bus/w1/devices/28-021503c981ff/w1_slave"
+    t.integer  "max_pool_temperatur",                                       default: 30
+    t.string   "schalter_typ",                                              default: "Rutenbeck_TPIP1"
+    t.string   "schalter_ip",                                               default: "192.168.178.48"
+    t.string   "filename_vorlauf_sensor",                                   default: "/sys/bus/w1/devices/28-04146f57a7ff/w1_slave"
+    t.string   "filename_ruecklauf_sensor",                                 default: "/sys/bus/w1/devices/28-04146f57bdff/w1_slave"
+    t.string   "filename_sonne_sensor",                                     default: "/sys/bus/w1/devices/28-021503c262ff/w1_slave"
+    t.string   "filename_schatten_sensor",                                  default: "/sys/bus/w1/devices/28-021503c981ff/w1_slave"
     t.string   "schalter_passwort"
+    t.decimal  "min_sonne_ruecklauf_distanz",       precision: 3, scale: 1, default: 0.5
+    t.decimal  "min_vorlauf_ruecklauf_distanz",     precision: 3, scale: 1, default: 0.2
   end
 
   add_index "konfigurations", ["created_at"], name: "index_konfigurations_on_created_at"

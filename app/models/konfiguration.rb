@@ -50,6 +50,14 @@ class Konfiguration < ActiveRecord::Base
             :initial_value  => 30,
             :title          => 'Maximale Beckentemperatur bis zu der Temperatur-Steuerung über aktiv bleibt. Bei Überschreitung wird Pumpe nicht mehr aktiviert, wenn Temperatur des Vorlauf > Rücklauf'
         },
+        :min_sonne_ruecklauf_distanz => {
+            :initial_value  => 0.5,
+            :title          => 'Minimale Temperaturdifferenz um die Sonne höher sein muss als Rücklauf (Becken) für Aktivierung der Pumpe.<br>Verhindert Pendeln am Abend wenn Sonne-Sensor evtl. noch gespeicherte Wärme misst, aber kein Temperaturgewinn mehr stattfindet'
+        },
+        :min_vorlauf_ruecklauf_distanz => {
+            :initial_value  => 0.2,
+            :title          => 'Minimaler Temperaturgewinn der Solaranlage (Vorlauf-Rücklauf) für Aktivierung der Pumpe.<br>Sicherstellen, dass Gewinn an Temperatur nicht durch Leitungsverluste z.B. bei Erdverlegung wieder kompensiert wird bevor das Becken erreicht wird'
+        },
         :schalter_typ => {
             :initial_value  => 'Rutenbeck_TPIP1',
             :title          => 'Typ der verwendeten Schalter-Steckdose'
