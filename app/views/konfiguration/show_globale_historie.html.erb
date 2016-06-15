@@ -1,0 +1,22 @@
+<div class="page">
+  <h3>Historie aller Änderungen der Konfiguration</h3>
+
+  <div style="overflow:scroll;">
+    <table border="1">
+      <tr>
+        <th>Zeitpunkt</th>
+        <% Konfiguration.defaults.each do |k, v| %>
+            <%= "<th title='#{v[:title]}'>#{v[:short]}</th>".html_safe %>
+        <% end %>
+      </tr>
+      <% @historie.each do |h| %>
+          <tr>
+            <td><%= h.created_at.strftime('%d.%m.%Y %H:%M:%S') %></td>
+            <% Konfiguration.defaults.each do |k, v| %>
+                <%= "<td title='#{v[:title]}' #{'align=right' if h[k].class == Fixnum ||h[k].class == BigDecimal}>#{h[k]}</td>".html_safe %>
+            <% end %>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

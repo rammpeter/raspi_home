@@ -33,4 +33,10 @@ class KonfigurationControllerTest < ActionController::TestCase
     end
   end
 
+  test "show_globale historie" do
+    authenticate
+    get :show_globale_historie
+    assert_response :success
+  end
+
 end

@@ -24,8 +24,27 @@ class KonfigurationController < ApplicationController
   end
 
   def save_konfiguration
-    Konfiguration.create(params[:konfiguration].to_hash)
-    redirect_to :controller => :Welcome, :action => :index
+    if params[:commit] == 'Globale Historie'
+      redirect_to :action => :show_globale_historie
+      return
+    end
+
+
+    new_konf  = Konfiguration.new(params[:konfiguration].to_hash)
+    last_konf = Konfiguration.get_aktuelle_konfiguration
+
+    # Vorbereiten für Vergleich
+    last_konf.id = new_konf.id
+    last_konf.created_at = new_konf.created_at
+    last_konf.updated_at = new_konf.updated_at
+
+    if new_konf.attributes != last_konf.attributes
+      new_konf.save
+      redirect_to :controller => :Welcome, :action => :index
+    else
+      @message = "Es hat keine Änderung stattgefunden! Konfiguration wurde nicht gespeichert."
+      render :show_message
+    end
   end
 
   def show_historie
@@ -40,6 +59,10 @@ class KonfigurationController < ApplicationController
       end
     end
 
+  end
+
+  def show_globale_historie
+    @historie = Konfiguration.order(:created_at => :desc)
   end
 
 end
