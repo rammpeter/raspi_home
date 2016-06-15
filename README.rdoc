@@ -20,7 +20,19 @@
 * Erweitern der .profile des Users pi um folgende zwei Zeilen
     alias ll="ls -l"
     alias cdrr="cd ~/Documents/Projekte/rammpeter.github/raspi_home"
-
+* Update der OS-Installation:
+    sudo apt-get update
+    sudo apt-get dist-upgrade
+* Einrichten von unattended-upgrades für automatisiertes Update
+    sudo apt-get install unattended-upgrades update-notifier-common
+    sudo dpkg-reconfigure -plow unattended-upgrades
+    sudo vi /etc/apt/apt.conf.d/10periodic
+  Datei soll folgende Inhalte haben:
+    APT::Periodic::Update-Package-Lists "1";
+    APT::Periodic::Download-Upgradeable-Packages "1";
+    APT::Periodic::AutocleanInterval "7";
+    APT::Periodic::Unattended-Upgrade "1";
+  Logfile findet sich dann unter: /var/log/unattended-upgrades/
 
 === Installieren der Ruby-Umgebung
 * Curl + Revision control systeme instaliieren: > sudo apt-get install -y git curl zlib1g-dev subversion
