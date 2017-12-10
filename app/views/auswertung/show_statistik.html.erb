@@ -1,0 +1,31 @@
+<div class="page">
+  <div style="float: left">
+    <h3>Statitsitsche Auswertung Temperaturverlauf</h3>
+    Größere Zeiträume können durchaus länger brauchen für Aufbereitung der Anzeige<br><br>
+
+    <%= form_tag url_for(:action=>:list_statistik) do %>
+        <label for="gruppierung">Gruppierung</label>
+        <select name="gruppierung" id="gruppierung">
+          <option value="tag">Tag</option>
+          <option value="monat">Monat</option>
+        </select>
+        <label for="start">Start</label>
+        <input name="start" type="text" id="start" value="<%= @start %>" title="Start des Betrachtungszeitraumes">
+        <label for="ende">Ende</label>
+        <input name="ende" type="text" id="ende"  value="<%= @ende %>" title="Ende des Betrachtungszeitraumes">
+        <%= button_tag('Anzeigen') %>
+    <% end %>
+  </div>
+  <div style="float: right">
+    <%= image_tag('Thermometer.jpg') %>
+  </div>
+  <div style="clear: both"></div>
+</div>
+
+<script>
+  $(function() {
+    $("#start" ).datepicker();
+    $("#ende" ).datepicker();
+  });
+</script>
+

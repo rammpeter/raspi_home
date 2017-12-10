@@ -1,0 +1,167 @@
+<dataSource name="Rails raspi_home: test">
+  <database-model serializer="dbm" rdbms="SQLITE" format-version="2.6">
+    <schema id="1">
+      <visible>1</visible>
+    </schema>
+    <table id="2" parent="1" name="konfigurations" />
+    <table id="3" parent="1" name="schema_migrations" />
+    <table id="4" parent="1" name="sqlite_sequence" />
+    <table id="5" parent="1" name="temperaturs" />
+    <column id="6" parent="2" name="id">
+      <mandatory>1</mandatory>
+      <data-type>INTEGER(0,-1)|4</data-type>
+    </column>
+    <column id="7" parent="2" name="UserName">
+      <data-type>VARCHAR(0,-1)|12</data-type>
+    </column>
+    <column id="8" parent="2" name="Passwort">
+      <data-type>VARCHAR(0,-1)|12</data-type>
+    </column>
+    <column id="9" parent="2" name="Max_Stunde_Aktiv">
+      <data-type>INTEGER(0,-1)|4</data-type>
+    </column>
+    <column id="10" parent="2" name="Min_Aktiv_Stunden_je_Tag">
+      <data-type>INTEGER(0,-1)|4</data-type>
+    </column>
+    <column id="11" parent="2" name="Tage_Rueckwaerts_Mindestens_Aktiv">
+      <data-type>INTEGER(0,-1)|4</data-type>
+    </column>
+    <column id="12" parent="2" name="Min_Aktiv_Minuten_Vor_Vergleich">
+      <data-type>INTEGER(0,-1)|4</data-type>
+    </column>
+    <column id="13" parent="2" name="Max_Inaktiv_Minuten_Tagsueber">
+      <data-type>INTEGER(0,-1)|4</data-type>
+    </column>
+    <column id="14" parent="2" name="Inaktiv_Betrachtung_Start">
+      <data-type>INTEGER(0,-1)|4</data-type>
+    </column>
+    <column id="15" parent="2" name="Inaktiv_Betrachtung_Ende">
+      <data-type>INTEGER(0,-1)|4</data-type>
+    </column>
+    <column id="16" parent="2" name="Min_Aktiv_Fuer_Reinigung">
+      <data-type>INTEGER(0,-1)|4</data-type>
+    </column>
+    <column id="17" parent="2" name="created_at">
+      <mandatory>1</mandatory>
+      <data-type>DATETIME(0,-1)|12</data-type>
+    </column>
+    <column id="18" parent="2" name="updated_at">
+      <mandatory>1</mandatory>
+      <data-type>DATETIME(0,-1)|12</data-type>
+    </column>
+    <column id="19" parent="2" name="modus">
+      <data-type>INTEGER(0,-1)|4</data-type>
+    </column>
+    <column id="20" parent="2" name="max_pool_temperatur">
+      <data-type>INTEGER(0,-1)|4</data-type>
+      <default-expression>30</default-expression>
+    </column>
+    <column id="21" parent="2" name="schalter_typ">
+      <data-type>VARCHAR(0,-1)|12</data-type>
+      <default-expression>'Rutenbeck_TPIP1'</default-expression>
+    </column>
+    <column id="22" parent="2" name="schalter_ip">
+      <data-type>VARCHAR(0,-1)|12</data-type>
+      <default-expression>'192.168.178.48'</default-expression>
+    </column>
+    <column id="23" parent="2" name="filename_vorlauf_sensor">
+      <data-type>VARCHAR(0,-1)|12</data-type>
+      <default-expression>'/sys/bus/w1/devices/28-04146f57a7ff/w1_slave'</default-expression>
+    </column>
+    <column id="24" parent="2" name="filename_ruecklauf_sensor">
+      <data-type>VARCHAR(0,-1)|12</data-type>
+      <default-expression>'/sys/bus/w1/devices/28-04146f57bdff/w1_slave'</default-expression>
+    </column>
+    <column id="25" parent="2" name="filename_sonne_sensor">
+      <data-type>VARCHAR(0,-1)|12</data-type>
+      <default-expression>'/sys/bus/w1/devices/28-021503c262ff/w1_slave'</default-expression>
+    </column>
+    <column id="26" parent="2" name="filename_schatten_sensor">
+      <data-type>VARCHAR(0,-1)|12</data-type>
+      <default-expression>'/sys/bus/w1/devices/28-021503c981ff/w1_slave'</default-expression>
+    </column>
+    <column id="27" parent="2" name="schalter_passwort">
+      <data-type>VARCHAR(0,-1)|12</data-type>
+    </column>
+    <column id="28" parent="2" name="min_sonne_ruecklauf_distanz">
+      <data-type>DECIMAL(3,1)(0,-1)|6</data-type>
+      <default-expression>0.5</default-expression>
+    </column>
+    <column id="29" parent="2" name="min_vorlauf_ruecklauf_distanz">
+      <data-type>DECIMAL(3,1)(0,-1)|6</data-type>
+      <default-expression>0.2</default-expression>
+    </column>
+    <index id="30" parent="2" name="index_konfigurations_on_created_at">
+      <columns>created_at</columns>
+      <desc-columns />
+      <unique>1</unique>
+    </index>
+    <key id="31" parent="2">
+      <columns>id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="32" parent="3" name="version">
+      <mandatory>1</mandatory>
+      <data-type>VARCHAR(0,-1)|12</data-type>
+    </column>
+    <index id="33" parent="3" name="unique_schema_migrations">
+      <columns>version</columns>
+      <desc-columns />
+      <unique>1</unique>
+    </index>
+    <column id="34" parent="4" name="name">
+      <data-type>(0,-1)|12</data-type>
+    </column>
+    <column id="35" parent="4" name="seq">
+      <data-type>(0,-1)|12</data-type>
+    </column>
+    <column id="36" parent="5" name="id">
+      <mandatory>1</mandatory>
+      <data-type>INTEGER(0,-1)|4</data-type>
+    </column>
+    <column id="37" parent="5" name="Zeit">
+      <data-type>DATETIME(0,-1)|12</data-type>
+    </column>
+    <column id="38" parent="5" name="Vorlauf">
+      <data-type>DECIMAL(6,3)(0,-1)|6</data-type>
+    </column>
+    <column id="39" parent="5" name="Ruecklauf">
+      <data-type>DECIMAL(6,3)(0,-1)|6</data-type>
+    </column>
+    <column id="40" parent="5" name="created_at">
+      <mandatory>1</mandatory>
+      <data-type>DATETIME(0,-1)|12</data-type>
+    </column>
+    <column id="41" parent="5" name="updated_at">
+      <mandatory>1</mandatory>
+      <data-type>DATETIME(0,-1)|12</data-type>
+    </column>
+    <column id="42" parent="5" name="Schatten">
+      <data-type>DECIMAL(6,3)(0,-1)|6</data-type>
+    </column>
+    <column id="43" parent="5" name="Sonne">
+      <data-type>DECIMAL(6,3)(0,-1)|6</data-type>
+    </column>
+    <column id="44" parent="5" name="Pumpenstatus">
+      <data-type>DECIMAL(1)(0,-1)|6</data-type>
+    </column>
+    <column id="45" parent="5" name="wegen_temperatur_aktiv">
+      <data-type>INTEGER(0,-1)|4</data-type>
+    </column>
+    <column id="46" parent="5" name="wegen_zirkulationszeit_aktiv">
+      <data-type>INTEGER(0,-1)|4</data-type>
+    </column>
+    <column id="47" parent="5" name="wegen_zyklischer_reinigung_aktiv">
+      <data-type>INTEGER(0,-1)|4</data-type>
+    </column>
+    <index id="48" parent="5" name="index_temperaturs_on_created_at">
+      <columns>created_at</columns>
+      <desc-columns />
+      <unique>1</unique>
+    </index>
+    <key id="49" parent="5">
+      <columns>id</columns>
+      <primary>1</primary>
+    </key>
+  </database-model>
+</dataSource>

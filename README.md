@@ -15,8 +15,8 @@ Folgende Prämissen sollen erfüllt werden:
 
 3. Auch wenn kein Betrieb nach Punkt 1 aktiviert ist, soll während üblicher Nutzungszeiten zyklisch die Pumpe kurz eingeschalten werden, um Oberflächenschmutz in den Skimmer zu befördern
 
-Da für die Steuerung je Minute Werte für dioe Außentemperatur in der Sonne und im Schatten aufgenommen werden,
-fällt nebenbei noch die Funktion einer Wtterstattion mit langfristiger Protokollierung der Temperaturen mit ab.
+Da für die Steuerung je Minute Werte für die Außentemperatur in der Sonne und im Schatten aufgenommen werden,
+fällt nebenbei noch die Funktion einer Wetterstattion mit langfristiger Protokollierung der Temperaturen mit ab.
 
 ![Alt text](app/assets/images/poolsteuerung.jpg?raw=true "Temperatur-Verlauf mit Schaltzeiten")
 

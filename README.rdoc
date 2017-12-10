@@ -16,10 +16,68 @@
 * Download des Raspbian OS von https://www.raspberrypi.org/downloads/raspbian/ und Kopie auf Micro-SD-Karte
 * Einrichten WLAN mit wicd-curses im Text-Modus per ssh, wenn kein GUI verfügbar
 * Einstellen WLAN-Standort Deutschland per: > sudo raspi-config, Internat. options, change WiFi country
+* Alternativ manuell: editieren /etc/wpa_supplicant/wpa_supplicant.conf:
+country=DE
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+  ssid="WLAN-Name"
+  psk="password"
+}
+
 * Aktivieren 1wire: > sudo raspi-config, Advanced options, 1-Wire
+* Passwort des Users pi ändern (Default = raspberry)
 * Erweitern der .profile des Users pi um folgende zwei Zeilen
     alias ll="ls -l"
     alias cdrr="cd ~/Documents/Projekte/rammpeter.github/raspi_home"
+* Update der OS-Installation:
+    sudo apt-get update
+    sudo apt-get dist-upgrade
+* Einrichten von unattended-upgrades für automatisiertes Updates
+    sudo apt-get install unattended-upgrades update-notifier-common
+    sudo dpkg-reconfigure -plow unattended-upgrades
+    sudo vi /etc/apt/apt.conf.d/10periodic
+  Datei soll folgende Inhalte haben:
+    APT::Periodic::Update-Package-Lists "1";
+    APT::Periodic::Download-Upgradeable-Packages "1";
+    APT::Periodic::AutocleanInterval "7";
+    APT::Periodic::Unattended-Upgrade "1";
+  Logfile findet sich dann unter: /var/log/unattended-upgrades/
+* SSH-Zugang absichern:
+    sudo vi /etc/ssh/sshd_config
+  Verhindern root-Zugriff per: PermitRootLogin no
+  Reduktion auf User pi per: AllowUsers pi
+* MTA einrichten für Mail-Versand:
+    sudo apt-get install ssmtp heirloom-mailx
+    sudo vi /etc/ssmtp/ssmtp.conf
+  Einrichten wie folgt:
+    #
+    # Config file for sSMTP sendmail
+    #
+    # The person who gets all mail for userids < 1000
+    # Make this empty to disable rewriting.
+    root=raspi-ramm@ramm-oberhermsdorf.de
+
+    # The place where the mail goes. The actual machine name is required no
+    # MX records are consulted. Commonly mailhosts are named mail.domain.com
+    mailhub=smtp.1und1.de:587
+
+    # Where will the mail seem to come from?
+    rewriteDomain=ramm-oberhermsdorf.de
+
+    # The full hostname
+    hostname=ramm-oberhermsdorf.de
+
+    # Are users allowed to set their own From: address?
+    # YES - Allow the user to specify their own From: address
+    # NO - Use the system generated From: address
+    FromLineOverride=NO
+
+    UseTLS=YES
+    UseSTARTTLS=YES
+    AuthUser=raspi-ramm@ramm-oberhermsdorf.de
+    AuthPass=*********
 
 
 === Installieren der Ruby-Umgebung
