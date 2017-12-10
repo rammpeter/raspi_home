@@ -8,8 +8,8 @@
 DIR=`dirname $0`
 cd $DIR
 
-LOG=log/schreibe_temperatur.log
-T_LOG=log/schreibe_temperatur_temp.log
+LOG=~/log/schreibe_temperatur.log
+T_LOG=~/log/schreibe_temperatur_temp.log
 
 bin/rails runner -e production "Temperatur.schreibe_temperatur" 2>>$T_LOG >>$T_LOG
 RC=$?
