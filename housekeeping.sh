@@ -8,7 +8,7 @@
 DIR=`dirname $0`
 cd $DIR
 
-LOG=log/housekeeping.log
+LOG=~/log/housekeeping.log
 
 bin/rails runner -e production "Temperatur.housekeeping" 2>>$LOG >>$LOG
 RC=$?
