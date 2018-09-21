@@ -12,6 +12,8 @@ LOG=~/log/schreibe_temperatur.log
 T_LOG=~/log/schreibe_temperatur_temp.log
 touch $T_LOG
 
+export SECRET_KEY_BASE=64bf00b2119874a10459a3858e4fa9659fe98418587f7a3904bd1ac6548055befdb269ba6c2e5b508fd99442140a8d16bd14b4145b7d4e5e2986524018570607
+
 bin/rails runner -e production "Temperatur.schreibe_temperatur" 2>>$T_LOG >>$T_LOG
 RC=$?
 
