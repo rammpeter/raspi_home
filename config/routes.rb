@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get 'auswertung/list_temperatur_verlauf'
 
+  get 'auswertung/show_statistik'
   get 'auswertung/show_temperatur_verlauf'
   get 'auswertung/show_temperatur_verlauf_aktuell'
 
