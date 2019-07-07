@@ -6,7 +6,7 @@ class SchreibeTemperaturJob < ApplicationJob
   CYCLE_SECONDS = 60
 
   def perform(*args)
-    SchreibeTemperaturJob.set(wait_until: Time.now.round + CHECK_CYCLE_SECONDS).perform_later  # Schedule next start
+    SchreibeTemperaturJob.set(wait_until: Time.now.round + CYCLE_SECONDS).perform_later  # Schedule next start
     #Thread.new{PanoramaConnection.disconnect_aged_connections(CHECK_CYCLE_SECONDS)}
     Temperatur.schreibe_temperatur
   rescue Exception => e
