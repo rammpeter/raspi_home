@@ -1,4 +1,4 @@
-class KonfigurationMinDistance < ActiveRecord::Migration
+class KonfigurationMinDistance < ActiveRecord::Migration[5.2]
   def change
     # Pendeln verhindern am Abend wenn Sonne-Sensor noch gespeicherte Wärme misst, aber kein Temperaturgewinn mehr stattfindet
     add_column :konfigurations, :min_sonne_ruecklauf_distanz,   :decimal, :precision => 3, :scale => 1, :default=>0.5

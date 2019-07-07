@@ -1,5 +1,5 @@
 <%
-  @max_temp = [@temperatur.Sonne, @temperatur.Schatten, @temperatur.Vorlauf, @temperatur.Ruecklauf].max
+  @max_temp = [@temperatur.Sonne, @temperatur.Schatten, @temperatur.Vorlauf, @temperatur.Ruecklauf].max if @temperatur
 
   def show_pct_background(value)
     pct_value = value * 100 / @max_temp

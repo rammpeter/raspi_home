@@ -13,7 +13,7 @@
           <tr>
             <td><%= h.created_at.strftime('%d.%m.%Y %H:%M:%S') %></td>
             <% Konfiguration.defaults.each do |k, v| %>
-                <%= "<td title='#{v[:title]}' #{'align=right' if h[k].class == Fixnum ||h[k].class == BigDecimal}>#{h[k]}</td>".html_safe %>
+                <%= "<td title='#{v[:title]}' #{'align=right' if h[k].class.name == 'Fixnum' ||h[k].class == BigDecimal}>#{h[k]}</td>".html_safe %>
             <% end %>
           </tr>
       <% end %>

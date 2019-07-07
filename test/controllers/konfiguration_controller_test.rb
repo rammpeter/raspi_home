@@ -21,14 +21,14 @@ class KonfigurationControllerTest < ActionController::TestCase
 
   test "save_konfiguration" do
     authenticate
-    post :save_konfiguration, :konfiguration => Konfiguration.get_initial_values_hash
+    post :save_konfiguration, params: {konfiguration: Konfiguration.get_initial_values_hash}
     assert_response :redirect
   end
 
   test "show_historie" do
     authenticate
     Konfiguration.defaults do|key, value|
-      get :show_historie, :column => key
+      get :show_historie, params: {:column => key}
       assert_response :success
     end
   end

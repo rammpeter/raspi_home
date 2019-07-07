@@ -1,4 +1,4 @@
-class TemperaturToFloat < ActiveRecord::Migration
+class TemperaturToFloat < ActiveRecord::Migration[5.2]
   def change
     add_column :temperaturs, :Schatten, :decimal, :precision => 6, :scale => 3
     add_column :temperaturs, :Sonne, :decimal, :precision => 6, :scale => 3

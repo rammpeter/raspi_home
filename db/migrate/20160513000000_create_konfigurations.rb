@@ -1,4 +1,4 @@
-class CreateKonfigurations < ActiveRecord::Migration
+class CreateKonfigurations < ActiveRecord::Migration[5.2]
   def change
     create_table :konfigurations do |t|
       t.string  :UserName                              # User fuer http-Access

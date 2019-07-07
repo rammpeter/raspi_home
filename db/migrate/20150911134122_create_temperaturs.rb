@@ -1,4 +1,4 @@
-class CreateTemperaturs < ActiveRecord::Migration
+class CreateTemperaturs < ActiveRecord::Migration[5.2]
   def change
     create_table :temperaturs do |t|
       t.datetime :Zeit

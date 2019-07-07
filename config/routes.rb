@@ -3,9 +3,23 @@ Rails.application.routes.draw do
 
   get 'auswertung/list_temperatur_verlauf'
 
-  #get 'auswertung/show_temperatur_verlauf'
+  get 'auswertung/show_temperatur_verlauf'
+  get 'auswertung/show_temperatur_verlauf_aktuell'
 
-  #get 'welcome/index'
+  get  'konfiguration/save_konfiguration'
+  post 'konfiguration/save_konfiguration'
+
+  get  'konfiguration/show_globale_historie'
+  post 'konfiguration/show_globale_historie'
+
+  get  'konfiguration/show_historie'
+  post 'konfiguration/show_historie'
+
+  get  'konfiguration/show_konfiguration'
+  post 'konfiguration/show_konfiguration'
+
+  get  'welcome/index'
+  post 'welcome/index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -61,8 +75,5 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-
-  get  ':controller/:action'
-  post ':controller/:action'
 
 end

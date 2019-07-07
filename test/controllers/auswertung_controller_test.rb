@@ -13,7 +13,7 @@ class AuswertungControllerTest < ActionController::TestCase
 
 
   test "list_temperatur_verlauf" do
-    post :list_temperatur_verlauf, :start=>"12.05.2016", :ende=>"13.05.2016"
+    post :list_temperatur_verlauf, params: {:start=>"12.05.2016", :ende=>"13.05.2016"}
     assert_response :success
   end
 

@@ -1,4 +1,4 @@
-class KonfigurationSensors < ActiveRecord::Migration
+class KonfigurationSensors < ActiveRecord::Migration[5.2]
   def change
     add_column :konfigurations, :schalter_typ,                :string, :default => 'Rutenbeck_TPIP1'
     add_column :konfigurations, :schalter_ip,                 :string, :default => '192.168.178.48'

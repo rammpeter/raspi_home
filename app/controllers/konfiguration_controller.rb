@@ -29,6 +29,7 @@ class KonfigurationController < ApplicationController
       return
     end
 
+    ActionController::Parameters.permit_all_parameters = true
 
     new_konf  = Konfiguration.new(params[:konfiguration].to_hash)
     last_konf = Konfiguration.get_aktuelle_konfiguration
@@ -40,7 +41,7 @@ class KonfigurationController < ApplicationController
 
     if new_konf.attributes != last_konf.attributes
       new_konf.save
-      redirect_to :controller => :Welcome, :action => :index
+      redirect_to :controller => :welcome, :action => :index
     else
       @message = "Es hat keine Änderung stattgefunden! Konfiguration wurde nicht gespeichert."
       render :show_message

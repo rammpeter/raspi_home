@@ -1,6 +1,10 @@
 require 'net/http'
+require "influxdb"
 
 class Temperatur < ActiveRecord::Base
+
+  # create connection to influx-DB
+  @@influxdb = InfluxDB::Client.new
 
   # gibt die im File hinterlegte Temperatur zurück
   def self.read_temperature_from_file(sensor_file_name)
