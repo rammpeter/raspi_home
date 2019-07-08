@@ -32,6 +32,9 @@ Rails.application.routes.draw do
   get  'welcome/authenticate'
   post 'welcome/authenticate'
 
+  get  'welcome/do_auth'
+  post 'welcome/do_auth'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
