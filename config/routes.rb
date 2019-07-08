@@ -29,6 +29,9 @@ Rails.application.routes.draw do
   get  'welcome/index'
   post 'welcome/index'
 
+  get  'welcome/authenticate'
+  post 'welcome/authenticate'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
