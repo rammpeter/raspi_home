@@ -8,14 +8,14 @@ class KonfigurationController < ApplicationController
     # http basic auth:
     # authenticate_or_request_with_http_basic('Administration') do |username, password|
     #  konf = Konfiguration.get_aktuelle_konfiguration
-    #  username == konf.UserName && password == konf.Passwort
+    #  username == konf.UserName && password == konf.Passwort∆
     # end
 
     # Alternativ lokale authentifizierung
     if session[:username] != konf.UserName || session[:password] != konf.Passwort
       session[:after_auth_controller] = params[:controller]
       session[:after_auth_action]     = params[:action]
-      redirect_to :controller => :Welcome, :action => :authenticate
+      redirect_to :controller => :welcome, :action => :authenticate
     end
   end
 
