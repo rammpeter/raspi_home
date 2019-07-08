@@ -8,6 +8,7 @@
 /.bundle
 /.idea
 /Gemfile.lock
+/public/assets/*
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
