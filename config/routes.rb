@@ -1,11 +1,18 @@
 Rails.application.routes.draw do
-  get 'konfiguration/show_konfiguration'
+  get  'konfiguration/show_konfiguration'
+  post 'konfiguration/show_konfiguration'
 
-  get 'auswertung/list_temperatur_verlauf'
+  get  'auswertung/list_temperatur_verlauf'
+  post 'auswertung/list_temperatur_verlauf'
 
-  get 'auswertung/show_statistik'
-  get 'auswertung/show_temperatur_verlauf'
-  get 'auswertung/show_temperatur_verlauf_aktuell'
+  get  'auswertung/show_statistik'
+  post 'auswertung/show_statistik'
+
+  get  'auswertung/show_temperatur_verlauf'
+  post 'auswertung/show_temperatur_verlauf'
+
+  get  'auswertung/show_temperatur_verlauf_aktuell'
+  post 'auswertung/show_temperatur_verlauf_aktuell'
 
   get  'konfiguration/save_konfiguration'
   post 'konfiguration/save_konfiguration'
