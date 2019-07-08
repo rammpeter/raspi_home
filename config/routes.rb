@@ -21,9 +21,6 @@ Rails.application.routes.draw do
   get  'konfiguration/show_globale_historie'
   post 'konfiguration/show_globale_historie'
 
-  get  'konfiguration/show_konfiguration'
-  post 'konfiguration/show_konfiguration'
-
   get  'konfiguration/show_historie'
   post 'konfiguration/show_historie'
 
