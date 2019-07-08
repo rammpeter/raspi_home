@@ -93,8 +93,6 @@ network={
     export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
     [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-
-
 ==== Einrichtung der Pool-Steuerung
 * Einrichten eines Verzeichnisses auf dem Raspberry Pi: > mkdir -p /home/pi/Documents/Projekte/rammpeter.github
 * Wechsel in das Verzeichnis: > cd /home/pi/Documents/Projekte/rammpeter.github
@@ -108,13 +106,6 @@ network={
     > sudo ln -s /etc/init.d/raspi_home /etc/rc5.d/S01raspi_home
 * Systemd neu initialisieren: > sudo systemctl daemon-reload
 * Ausführen des Install/Update-Jobs: > ./upgrade_system.sh
-* Anpassen der Crontab des Users pi: > crontab -e + Einfügen der beiden Zeilen
-    * * * * *  /home/pi/Documents/Projekte/rammpeter.github/raspi_home/schreibe_temperatur.sh
-    0 12 * * *  /home/pi/Documents/Projekte/rammpeter.github/raspi_home/housekeeping.sh
-
-==== Alterantiv: Nutzung Docker-Container
-* Erstellen eines Docker-Containers:
-    > docker run --name raspi_home -p3000:3000 -v /home/pi/Documents/Projekte/rammpeter.github/raspi_home/db/:/opt/raspi_home/db/ -v /sys/bus/w1/devices/:/sys/bus/w1/devices/ -d rammpeter/raspi_home
 
 === Anschliessen der Temperatur-Sensoren
 * Verkabelung an GPIO-Anschlüssen analog http://projects.privateeyepi.com/home/temperature-sensor-project-using-ds18b20
