@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
-  get  'konfiguration/show_konfiguration'
-  post 'konfiguration/show_konfiguration'
 
   get  'auswertung/list_temperatur_verlauf'
   post 'auswertung/list_temperatur_verlauf'
+
+  get  'auswertung/list_statistik'
+  post 'auswertung/list_statistik'
 
   get  'auswertung/show_statistik'
   post 'auswertung/show_statistik'
@@ -19,6 +20,9 @@ Rails.application.routes.draw do
 
   get  'konfiguration/show_globale_historie'
   post 'konfiguration/show_globale_historie'
+
+  get  'konfiguration/show_konfiguration'
+  post 'konfiguration/show_konfiguration'
 
   get  'konfiguration/show_historie'
   post 'konfiguration/show_historie'
