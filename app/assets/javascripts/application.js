@@ -14,7 +14,7 @@
 //= require jquery-ui
 //= require jquery.ui.touch-punch.js
 //= require jquery_ujs
-//= require turbolinks
+// require turbolinks
 
 //= require jquery_table2CSV
 //= require flot/jquery.flot

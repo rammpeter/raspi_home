@@ -112,6 +112,10 @@ network={
     * * * * *  /home/pi/Documents/Projekte/rammpeter.github/raspi_home/schreibe_temperatur.sh
     0 12 * * *  /home/pi/Documents/Projekte/rammpeter.github/raspi_home/housekeeping.sh
 
+==== Alterantiv: Nutzung Docker-Container
+* Erstellen eines Docker-Containers:
+    > docker run --name raspi_home -p3000:3000 -v /home/pi/Documents/Projekte/rammpeter.github/raspi_home/db/:/opt/raspi_home/db/ -v /sys/bus/w1/devices/:/sys/bus/w1/devices/ -d rammpeter/raspi_home
+
 === Anschliessen der Temperatur-Sensoren
 * Verkabelung an GPIO-Anschlüssen analog http://projects.privateeyepi.com/home/temperature-sensor-project-using-ds18b20
 * Sensoren sollten dann als Verzeichnis unter /sys/bus/w1/devices/ auftauchen
