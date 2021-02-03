@@ -18,7 +18,7 @@ module RaspiHome
     config.time_zone = 'Berlin'
     config.active_record.default_timezone = :local
 
-    config.active_record.sqlite3.represent_boolean_as_integer = true
+    # config.active_record.sqlite3.represent_boolean_as_integer = true
 
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
