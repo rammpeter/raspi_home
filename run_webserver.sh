@@ -8,7 +8,7 @@
 DIR=`dirname $0`
 cd $DIR
 
-LOG=log/run_weserver.log
+LOG=log/run_webserver.log
 export SECRET_KEY_BASE=64bf00b2119874a10459a3858e4fa9659fe98418587f7a3904bd1ac6548055befdb269ba6c2e5b508fd99442140a8d16bd14b4145b7d4e5e2986524018570607
 
 export RAILS_ENV=production 
