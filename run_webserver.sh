@@ -13,6 +13,7 @@ export SECRET_KEY_BASE=64bf00b2119874a10459a3858e4fa9659fe98418587f7a3904bd1ac65
 
 export RAILS_ENV=production 
 
+rm -rf public/assets
 rake assets:precompile 
 
 bin/rails server -e production --binding 0.0.0.0 2>>$LOG >>$LOG
