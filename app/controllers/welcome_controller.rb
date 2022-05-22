@@ -4,6 +4,12 @@ class WelcomeController < ApplicationController
     @konfiguration  = Konfiguration.get_aktuelle_konfiguration
   end
 
+  def watch
+    @temperatur     = Temperatur.last
+    @konfiguration  = Konfiguration.get_aktuelle_konfiguration
+    render 'watch', layout: 'watch'
+  end
+
   def authenticate
 
   end

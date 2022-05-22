@@ -1,0 +1,39 @@
+<div>
+  <% if @temperatur.nil? %>
+    Nach Beginn der Temperaturerfassung wird hier der aktuelle Status angezeigt
+  <% else %>
+    <h3>Status von <%= @temperatur.created_at.strftime('%d.%m.%Y %H:%M:%S') %></h3>
+    <table border="1">
+      <tr>
+        <td>Sonne</td>
+        <td style="text-align: right"><%=  @temperatur.Sonne.round(1) %></td>
+      </tr>
+      <tr>
+        <td>Schatten</td>
+        <td style="text-align: right"><%=  @temperatur.Schatten.round(1) %></td>
+      </tr>
+      <tr>
+        <td>Vorlauf</td>
+        <td style="text-align: right"><%=  @temperatur.Vorlauf.round(1) %></td>
+      </tr>
+      <tr>
+        <td>Rücklauf</td>
+        <td style="text-align: right"><%=  @temperatur.Ruecklauf.round(1) %></td>
+      </tr>
+      <tr>
+        <td>Differenz</td>
+        <td style="text-align: right"><%=  (@temperatur.Vorlauf - @temperatur.Ruecklauf).round(1) %></td>
+      </tr>
+      <tr>
+        <td>Pumpe</td>
+        <td><%= @temperatur.Pumpenstatus == 0 ? 'AUS' : 'AN' %></td>
+      </tr>
+      <tr>
+        <td colspan="2"><%= @temperatur.pumpe_an_grund %></td>
+      </tr>
+      <tr>
+        <td colspan="2"><%= @konfiguration.modus_text %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>

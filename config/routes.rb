@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   get  'welcome/index'
   post 'welcome/index'
 
+  get  'watch', to: 'welcome#watch'
+
   get  'welcome/authenticate'
   post 'welcome/authenticate'
 
