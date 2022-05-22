@@ -2,7 +2,7 @@
   <% if @temperatur.nil? %>
     Nach Beginn der Temperaturerfassung wird hier der aktuelle Status angezeigt
   <% else %>
-    <div style="text-align: center;">
+    <div style="text-align: center; width: 100%; background-color: #58ACFA; color: #FFFFFF;">
       <b >Pool <%= @temperatur.created_at.strftime('%H:%M:%S') %></b>
     </div>
     <table style="width: 100%;">
