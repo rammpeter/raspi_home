@@ -1,8 +1,8 @@
-<div>
+<div style="font-size: 600%; padding-left: 10px;">
   <% if @temperatur.nil? %>
     Nach Beginn der Temperaturerfassung wird hier der aktuelle Status angezeigt
   <% else %>
-    <h3>Status von <%= @temperatur.created_at.strftime('%d.%m.%Y %H:%M:%S') %></h3>
+    <b>Pool <%= @temperatur.created_at.strftime('%H:%M:%S') %></b>
     <table border="1">
       <tr>
         <td>Sonne</td>
