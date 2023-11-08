@@ -3,7 +3,7 @@
 # Zum Starten des Webservers
 
 # Da cron die .profile nicht inkludiert, hier nachholen, explizit bash setzen vorher
-. /home/pi/.profile
+. /home/pramm/.profile
 
 DIR=`dirname $0`
 cd $DIR
